@@ -1,6 +1,8 @@
 import java.util.Scanner;
 import java.util.Random;
 
+//https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
+
 public class Sokoban {
 
     /**
@@ -136,8 +138,47 @@ public class Sokoban {
      */
     public static int checkLevel(int lvl, char[][][] levels, int[][] goals)
     {
-        //FIX ME
-
+        //Test 1 -- lvl>= 0
+        if (lvl < 0) {
+            return 0; }
+        //Test 2 -- lvl is a valid index in levels, that the 2-d array at index lvl exists and that it contains at least 1 row.
+            if(lvl >= levels.size()){
+            //index not exists
+                return -1;}
+            // index exists
+            if (level.length() < 1) {
+                return -1; }
+        //Test 3 -- lvl is a valid index in goals, the 1-d array at index lvl exists and that it contains an even number of cells.
+            if (lvl >= goals.size()) {
+                return -2; }
+            if (level.length() % 2 ==1) {
+                return -2;}
+        //Test 4 -- the number of boxes is more than 0.
+            int counter = 0;
+            for (int i = 0; i < levels.length; i ++){
+            if (levels[i] == BOX_CHAR) {
+                counter ++;
+            }} if (counter == 0) {
+                return -3;}
+        //Test 5 -- the number of boxes equals the number of goals.
+            int boxCounter = 0;
+            int goalCounter = 0;
+            for (int i = 0; i < levels.length; i ++){
+            if (levels[i] == BOX_CHAR) {
+                boxCounter ++;} 
+            if (levels[i] == GOAL_CHAR) {
+                goalCounter ++; }
+            if (boxCounter != goalCounter) {
+                return -4;}
+        //Test 6 -- the coordinate of each goal is valid for the given lvl and does not correspond to a wall cell.
+            return -5;
+        //Test 7 -- the number of workers is exactly 1.
+            int counter = 0;
+            for (int i = 0; i < levels.length; i ++){
+            if (levels[i] == WORKER_CHAR) {
+                counter ++;
+            }} if (counter != 1) {
+                return -6;}
         //Test 8 -- Add in comments to explain the code
         for(int i = 0; i < goals[lvl].length - 1; i += 2) {
             for(int j = i + 2; j < goals[lvl].length - 1; j += 2) {
@@ -145,9 +186,7 @@ public class Sokoban {
                     return -7;
                 }
             }
-        }
         
-        return -99;
     }
 
     /**
@@ -339,5 +378,6 @@ public class Sokoban {
      * @param args Unused.
      */
     public static void main(String[] args) {
+        checkLevel();
     }
 }
