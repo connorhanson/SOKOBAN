@@ -3,7 +3,7 @@ import java.util.Arrays;
 public class MyLevels {
 	
 	public static final char EMPTY_CHAR = ' ';
-	 public static final char BOX_CHAR = '='; // Box character
+	 	public static final char BOX_CHAR = '='; // Box character
 	    public static final char WALL_CHAR   = '#'; // Wall character
 	    public static final char WORKER_CHAR  = '@'; // Worker character
 	    public static final char GOAL_CHAR  = '.'; // Goal character
@@ -70,6 +70,6 @@ public class MyLevels {
 	
 	public static void main(String[] args)
 	{
-		System.out.print(Arrays.toString(LEVELS));
+		//System.out.print(Arrays.toString(LEVELS));
 	}
 }
