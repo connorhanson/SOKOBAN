@@ -414,8 +414,9 @@ public class Sokoban {
         String charPrompt = "Play again? (y/n)";
             //char playAgain = sc.next().charAt(0);
             if (promptChar(sc, charPrompt) == 'y') { //fix method call
-                continue; } else {
-                    break;}
+               input = promptInt(sc, prompt, minLvl, maxLvl);
+                if (checkLevel(input, MyLevels.LEVELS, MyLevels.GOALS) ==1) { //check array parameters);
+                    System.out.println("Sokoban Level lvl " + input); } }
             System.out.print("Thanks for playing!");
             }
 }
