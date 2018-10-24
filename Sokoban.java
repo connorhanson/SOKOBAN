@@ -22,7 +22,13 @@ public class Sokoban {
      * @return Returns the value read from the user.
      */
     public static int promptInt(Scanner sc, String prompt, int min, int max) {
-        //FIX ME
+        
+        Scanner sc = new Scanner(System.in); 
+        System.out.print("Choose a level between 0 and maxLvl: ");
+        String prompt = sc.nextInt();
+        if (
+        
+
         return -99;
     }
 
@@ -379,5 +385,10 @@ public class Sokoban {
      */
     public static void main(String[] args) {
         checkLevel();
+        int min = 0;
+        int max = LEVELS[0]; 
+        for (int i = 0; i < LEVELS.length; ++i) {
+            if (LEVELS[i] > max) {
+                max = LEVELS[i];}} //fix me
     }
 }
