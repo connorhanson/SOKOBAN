@@ -142,16 +142,14 @@ public class Sokoban {
         if (lvl < 0) {
             return 0; }
         //Test 2 -- lvl is a valid index in levels, that the 2-d array at index lvl exists and that it contains at least 1 row.
-            if(lvl >= levels.size()){
+            if(lvl >= levels.length){
             //index not exists
                 return -1;}
             // index exists
-            if (level.length() < 1) {
-                return -1; }
         //Test 3 -- lvl is a valid index in goals, the 1-d array at index lvl exists and that it contains an even number of cells.
-            if (lvl >= goals.size()) {
+            if (lvl >= goals.length) {
                 return -2; }
-            if (level.length() % 2 ==1) {
+            if (goals.length % 2 ==1) {
                 return -2;}
         //Test 4 -- the number of boxes is more than 0.
             int counter = 0;
