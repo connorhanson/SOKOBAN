@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.util.Random;
 
@@ -22,7 +23,13 @@ public class Sokoban {
      * @return Returns the value read from the user.
      */
     public static int promptInt(Scanner sc, String prompt, int min, int max) {
-        //FIX ME
+        
+        Scanner sc = new Scanner(System.in); 
+        System.out.print("Choose a level between 0 and maxLvl: ");
+        String prompt = sc.nextInt();
+        if (
+        
+
         return -99;
     }
 
@@ -142,14 +149,16 @@ public class Sokoban {
         if (lvl < 0) {
             return 0; }
         //Test 2 -- lvl is a valid index in levels, that the 2-d array at index lvl exists and that it contains at least 1 row.
-            if(lvl >= levels.length){
+            if(lvl >= levels.size()){
             //index not exists
                 return -1;}
             // index exists
+            if (level.length() < 1) {
+                return -1; }
         //Test 3 -- lvl is a valid index in goals, the 1-d array at index lvl exists and that it contains an even number of cells.
-            if (lvl >= goals.length) {
+            if (lvl >= goals.size()) {
                 return -2; }
-            if (goals.length % 2 ==1) {
+            if (level.length() % 2 ==1) {
                 return -2;}
         //Test 4 -- the number of boxes is more than 0.
             int counter = 0;
@@ -377,5 +386,10 @@ public class Sokoban {
      */
     public static void main(String[] args) {
         checkLevel();
+        int min = 0;
+        int max = LEVELS[0]; 
+        for (int i = 0; i < LEVELS.length; ++i) {
+            if (LEVELS[i] > max) {
+                max = LEVELS[i];}} //fix me
     }
 }
