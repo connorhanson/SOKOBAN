@@ -1,3 +1,4 @@
+
 import java.util.Scanner;
 import java.util.Random;
 
@@ -22,11 +23,10 @@ public class Sokoban {
      * @return Returns the value read from the user.
      */
     public static int promptInt(Scanner sc, String prompt, int min, int max) {
-        
-        Scanner sc = new Scanner(System.in); 
         System.out.print("Choose a level between 0 and maxLvl: ");
         String prompt = sc.nextInt();
-        if (
+        if (prompt < min || prompt > max) {
+            System.out.print
         
 
         return -99;
@@ -384,11 +384,14 @@ public class Sokoban {
      * @param args Unused.
      */
     public static void main(String[] args) {
-        checkLevel();
+        
+        checkLevel(//fix me);
         int min = 0;
         int max = LEVELS[0]; 
         for (int i = 0; i < LEVELS.length; ++i) {
             if (LEVELS[i] > max) {
-                max = LEVELS[i];}} //fix me
+                max = LEVELS[i];}}//fix me
+        Scanner sc = new Scanner(System.in);
+        promptInt(//fix me);
     }
 }
