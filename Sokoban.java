@@ -1,20 +1,18 @@
-
 import java.util.Scanner;
 import java.util.Random;
 
-//https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
+// https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
 
 public class Sokoban {
 
     /**
-     * Prompts the user for a value by displaying prompt.
-     * Note: This method should not add a new line to the output of prompt. 
+     * Prompts the user for a value by displaying prompt. Note: This method should not add a new
+     * line to the output of prompt.
      *
-     * After prompting the user, the method will consume an entire
-     * line of input while reading an int. If the value read is between min and max (inclusive), 
-     * that value is returned.
-     * Otherwise, "Invalid value." terminated by a new line is output to the console and the 
-     * user is prompted again. 
+     * After prompting the user, the method will consume an entire line of input while reading an
+     * int. If the value read is between min and max (inclusive), that value is returned. Otherwise,
+     * "Invalid value." terminated by a new line is output to the console and the user is prompted
+     * again.
      *
      * @param sc The Scanner instance to read from System.in.
      * @param prompt The name of the value for which the user is prompted.
@@ -23,72 +21,76 @@ public class Sokoban {
      * @return Returns the value read from the user.
      */
     public static int promptInt(Scanner sc, String prompt, int min, int max) {
-        System.out.print("Choose a level between 0 and maxLvl: ");
-        String prompt = sc.nextInt();
-        if (prompt < min || prompt > max) {
-            System.out.print
-        
+        while (true) {
+            System.out.print(prompt);
+            int input = sc.nextInt();
 
-        return -99;
+            if (input >= min || input <= max) {
+                return input;
+            } else {
+                System.out.println("Invalid value.");
+
+            }
+
+        }
     }
 
     /**
-     * Prompts the user for a char value by displaying prompt.
-     * Note: This method should not be a new line to the output of prompt. 
+     * Prompts the user for a char value by displaying prompt. Note: This method should not be a new
+     * line to the output of prompt.
      *
      * After prompting the user, the method will read an entire line of input and return the first
      * non-whitespace character converted to lower case.
      *
      * @param sc The Scanner instance to read from System.in
      * @param prompt The user prompt.
-     * @return Returns the first non-whitespace character (in lower case) read from the user. If 
+     * @return Returns the first non-whitespace character (in lower case) read from the user. If
      *         there are no non-whitespace characters read, the null character is returned.
      */
     public static char promptChar(Scanner sc, String prompt) {
-        //FIX ME
-        return '\0';
+        System.out.print(prompt);
+        char input = sc.next().toLowerCase().charAt(0);
+        return input;
     }
 
     /**
-     * Prompts the user for a string value by displaying prompt.
-     * Note: This method should not be a new line to the output of prompt. 
+     * Prompts the user for a string value by displaying prompt. Note: This method should not be a
+     * new line to the output of prompt.
      *
-     * After prompting the user, the method will read an entire line of input, remove any leading and 
-     * trailing whitespace, and return the input converted to lower case.
+     * After prompting the user, the method will read an entire line of input, remove any leading
+     * and trailing whitespace, and return the input converted to lower case.
      *
      * @param sc The Scanner instance to read from System.in
      * @param prompt The user prompt.
-     * @return Returns the string entered by the user, converted to lower case with leading and trailing
-     *         whitespace removed.
-     */    
+     * @return Returns the string entered by the user, converted to lower case with leading and
+     *         trailing whitespace removed.
+     */
     public static String promptString(Scanner sc, String prompt) {
-        //FIX ME
-        return null;
+        System.out.print(prompt);
+        String input = sc.nextLine().trim().toLowerCase();
+        return input;
     }
-    
+
     /**
-     * Initializes the game board to a given level. You can assume that the level at lvl has been 
+     * Initializes the game board to a given level. You can assume that the level at lvl has been
      * successfully verified by the checkLevel method and that pos is an array of length 2.
      *
-     * 1 - The game board should be created row-by-row. 
-     *     a - For each row, copy the values from the corresponding row in the 2-d array contained 
-     *         at index lvl in levels.
-     *     b - When the worker is located, it's position should be recorded in the pos parameter.
-     * 2 - For each goal described in the array at index lvl of goals, convert the character at the 
-     *     goal coordinate to:
-     *     - Config.WORK_GOAL_CHAR if it contains the worker
-     *     - Config.BOX_GOAL_CHAR if it contains a box
-     *     - Config.GOAL_CHAR otherwise  
+     * 1 - The game board should be created row-by-row. a - For each row, copy the values from the
+     * corresponding row in the 2-d array contained at index lvl in levels. b - When the worker is
+     * located, it's position should be recorded in the pos parameter. 2 - For each goal described
+     * in the array at index lvl of goals, convert the character at the goal coordinate to: -
+     * Config.WORK_GOAL_CHAR if it contains the worker - Config.BOX_GOAL_CHAR if it contains a box -
+     * Config.GOAL_CHAR otherwise
      * 
      * @param lvl The index of the level to load.
      * @param levels The array containing the levels.
      * @param goals The parallel array to levels, containing the goals for the levels.
-     * @param pos The starting pos of the worker. A length 2 array, where index 0 is the row and 
-     *            index 1 is the column. 
+     * @param pos The starting pos of the worker. A length 2 array, where index 0 is the row and
+     *        index 1 is the column.
      * @return A two dimension array representing the initial configuration for the given level.
      */
     public static char[][] initBoard(int lvl, char[][][] levels, int[][] goals, int[] pos) {
-        //FIX ME
+        // FIX ME
         return null;
     }
 
@@ -96,118 +98,138 @@ public class Sokoban {
      * Prints out the game board.
      * 
      * 1 - Since the game board does not contain the outer walls, print out a sequence of
-     *     Config.WALL_CHAR with a length equal to that of the first row of board, plus the outer
-     *     wall to the left and the right.
-     * 2 - For each row in board, print out a Config.WALL_CHAR, followed by the contents
-     *     of the row, followed by a Config.WALL_CHAR.
-     * 3 - Finally, print out a sequence of Config.WALL_CHAR with a length equal to that 
-     *     of the last row of board, plus the outer wall to the left and the right.
+     * Config.WALL_CHAR with a length equal to that of the first row of board, plus the outer wall
+     * to the left and the right. 2 - For each row in board, print out a Config.WALL_CHAR, followed
+     * by the contents of the row, followed by a Config.WALL_CHAR. 3 - Finally, print out a sequence
+     * of Config.WALL_CHAR with a length equal to that of the last row of board, plus the outer wall
+     * to the left and the right.
      *
      * Note: each row printed out should be terminated by a new line.
      *
      * @param board The board to print.
      */
     public static void printBoard(char[][] board) {
-        //FIX ME
+        // FIX ME
     }
 
     /**
      * Runs a given level through some basic sanity checks.
      *
-     * This method performs the following tests (in order):
-     * 1 - lvl >= 0
-     * 2 - lvl is a valid index in levels, that the 2-d array at index lvl exists and that 
-     *     it contains at least 1 row.
-     * 3 - lvl is a valid index in goals, the 1-d array at index lvl exists and that it
-     *     contains an even number of cells.
-     * 4 - the number of boxes is more than 0.
-     * 5 - the number of boxes equals the number of goals.
-     * 6 - the coordinate of each goal is valid for the given lvl and does not
-     *     correspond to a wall cell.
-     * 7 - the number of workers is exactly 1.
-     * 8 - check for duplicate goals.
+     * This method performs the following tests (in order): 1 - lvl >= 0 2 - lvl is a valid index in
+     * levels, that the 2-d array at index lvl exists and that it contains at least 1 row. 3 - lvl
+     * is a valid index in goals, the 1-d array at index lvl exists and that it contains an even
+     * number of cells. 4 - the number of boxes is more than 0. 5 - the number of boxes equals the
+     * number of goals. 6 - the coordinate of each goal is valid for the given lvl and does not
+     * correspond to a wall cell. 7 - the number of workers is exactly 1. 8 - check for duplicate
+     * goals.
      *
      * @param lvl The index of the level to load.
      * @param levels The array containing the levels.
      * @param goals The parallel array to levels, containg the goals for the levels.
-     * @return 1 if all tests pass.
-     *         Otherwise if test:
-     *          - Test 1 fails: 0
-     *          - Test 2 fails: -1
-     *          - Test 3 fails: -2
-     *          - Test 4 fails: -3
-     *          - Test 5 fails: -4
-     *          - Test 6 fails: -5
-     *          - Test 7 fails: -6
-     *          - Test 8 fails: -7
-     *  
+     * @return 1 if all tests pass. Otherwise if test: - Test 1 fails: 0 - Test 2 fails: -1 - Test 3
+     *         fails: -2 - Test 4 fails: -3 - Test 5 fails: -4 - Test 6 fails: -5 - Test 7 fails: -6
+     *         - Test 8 fails: -7
+     * 
      */
-    public static int checkLevel(int lvl, char[][][] levels, int[][] goals)
-    {
-        //Test 1 -- lvl>= 0
+    public static int checkLevel(int lvl, char[][][] levels, int[][] goals) {
+        // Test 1 -- lvl>= 0
         if (lvl < 0) {
-            return 0; }
-        //Test 2 -- lvl is a valid index in levels, that the 2-d array at index lvl exists and that it contains at least 1 row.
-            if(lvl >= levels.size()){
-            //index not exists
-                return -1;}
-            // index exists
-            if (level.length() < 1) {
-                return -1; }
-        //Test 3 -- lvl is a valid index in goals, the 1-d array at index lvl exists and that it contains an even number of cells.
-            if (lvl >= goals.size()) {
-                return -2; }
-            if (level.length() % 2 ==1) {
-                return -2;}
-        //Test 4 -- the number of boxes is more than 0.
-            int counter = 0;
-            for (int i = 0; i < levels.length; i ++){
-            if (levels[i] == BOX_CHAR) {
-                counter ++;
-            }} if (counter == 0) {
-                return -3;}
-        //Test 5 -- the number of boxes equals the number of goals.
-            int boxCounter = 0;
-            int goalCounter = 0;
-            for (int i = 0; i < levels.length; i ++){
-            if (levels[i] == BOX_CHAR) {
-                boxCounter ++;} 
-            if (levels[i] == GOAL_CHAR) {
-                goalCounter ++; }
-            if (boxCounter != goalCounter) {
-                return -4;}
-        //Test 6 -- the coordinate of each goal is valid for the given lvl and does not correspond to a wall cell.
-            return -5;
-        //Test 7 -- the number of workers is exactly 1.
-            int counter = 0;
-            for (int i = 0; i < levels.length; i ++){
-            if (levels[i] == WORKER_CHAR) {
-                counter ++;
-            }} if (counter != 1) {
-                return -6;}
-        //Test 8 -- Add in comments to explain the code
-        for(int i = 0; i < goals[lvl].length - 1; i += 2) {
-            for(int j = i + 2; j < goals[lvl].length - 1; j += 2) {
-                if(goals[lvl][i] == goals[lvl][j] && goals[lvl][i+1] == goals[lvl][j+1]) {                    
+            return 0;
+        }
+        // Test 2 -- lvl is a valid index in levels, that the 2-d array at index lvl exists and that
+        // it contains at least 1 row.
+        if (lvl >= levels.length && levels[lvl].length < 1) {
+            // index not exists
+            return -1;
+        }
+        // index exists
+        // Test 3 -- lvl is a valid index in goals, the 1-d array at index lvl exists and that it
+        // contains an even number of cells.
+        if (lvl >= goals.length && (goals[lvl].length % 2 != 0)) {
+            return -2;
+        }
+        // Test 4 -- the number of boxes is more than 0.
+        int boxCounter = 0;
+        for (int i = 0; i < levels.length; i++) {
+            for (int k = 0; k < levels[i].length; k++) {
+                for (int j = 0; j < levels[i][k].length; j++) {
+                    if (levels[i][k][j] == '=') {
+                        boxCounter++;
+                    }
+                }
+            }
+        }
+
+        if (boxCounter == 0) {
+            return -3;
+        }
+        // Test 5 -- the number of boxes equals the number of goals.
+        boxCounter = 0;
+        int goalCounter = 0;
+        for (int i = 0; i < levels.length; i++) {
+            for (int k = 0; k < levels[i].length; k++) {
+                for (int j = 0; j < levels[i][k].length; j++) {
+                    if (levels[i][k][j] == '=') {
+                        boxCounter++;
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < goals.length; i++) {
+            goalCounter = goals[i].length / 2;
+        }
+
+        if (boxCounter != goalCounter) {
+            return -4;
+        }
+
+        // Test 6 -- the coordinate of each goal is valid for the given lvl and does not correspond
+        // to a wall cell.
+        for (int i = 0; i < goals[lvl].length; i += 2) {
+
+            int xCoord = goals[lvl][i];
+            int yCoord = goals[lvl][i + 1];
+            if (levels[lvl][yCoord][xCoord] == '#') {
+                return -5;
+            }
+        }
+        // Test 7 -- the number of workers is exactly 1.
+        int workerCounter = 0;
+        for (int i = 0; i < levels.length; i++) {
+            for (int k = 0; k < levels[i].length; k++) {
+                for (int j = 0; j < levels[i][k].length; j++) {
+                    if (levels[i][k][j] == '@') {
+                        workerCounter++;
+                    }
+                }
+            }
+        }
+        if (workerCounter != 1) {
+            return -6;
+        }
+        // Test 8 -- Add in comments to explain the code
+        for (int i = 0; i < goals[lvl].length - 1; i += 2) {
+            for (int j = i + 2; j < goals[lvl].length - 1; j += 2) {
+                if (goals[lvl][i] == goals[lvl][j] && goals[lvl][i + 1] == goals[lvl][j + 1]) {
                     return -7;
                 }
             }
-        
+        } return 1;
+
     }
 
     /**
-     * This method builds an int array with 2 cells, representing a movement vector, based on the 
+     * This method builds an int array with 2 cells, representing a movement vector, based on the
      * String parameter.
      *
-     * The rules to create the length 2 int array are as follows:
-     *   - The 1st character of the String represents the direction.
-     *   - The remaining characters (if there are any) are interpreted as integer and represent the
-     *     magnitude or the number of steps to take.
+     * The rules to create the length 2 int array are as follows: - The 1st character of the String
+     * represents the direction. - The remaining characters (if there are any) are interpreted as
+     * integer and represent the magnitude or the number of steps to take.
      *
-     * The cell at index 0 represents movement in the rows. Hence, a negative value represents 
+     * The cell at index 0 represents movement in the rows. Hence, a negative value represents
      * moving up the rows and a positive value represents moving down the rows.
      *
-     * The cell at index 1 represents movement in the columns. Hence, a negative value represents 
+     * The cell at index 1 represents movement in the columns. Hence, a negative value represents
      * moving left in the columns and a positive value represents moving right in the columns.
      *
      * If the first character of moveStr does not match on of Config.UP_CHAR, Config.DOWN_CHAR,
@@ -218,52 +240,44 @@ public class Sokoban {
      *
      * Hint: Use Scanner to parse the magnitude.
      *
-     * Some examples: 
-     *   - If the parameter moveStr is "81": An array {-1, 0} would represent moving up by one 
-     *     character.
-     *   - If the parameter moveStr is "65": An array {0, 5} would represent moving right by 5
-     *     characters.   
+     * Some examples: - If the parameter moveStr is "81": An array {-1, 0} would represent moving up
+     * by one character. - If the parameter moveStr is "65": An array {0, 5} would represent moving
+     * right by 5 characters.
      *
      * @param moveStr The string to parse.
      * @return The calculated movement vector as a 2 cell int array.
      */
     public static int[] calcDelta(String moveStr) {
-        //FIX ME
+        // FIX ME
         return null;
     }
 
     /**
      * This method checks that moving from one position to another position is a valid move.
      *
-     * To validate the move, the method should (in order) check:
-     *   1 - that pos is valid.
-     *   2 - that the character at pos in board is in the valid array.
-     *   3 - that the delta is valid.
-     *   4 - that the new position is valid and not a wall character.
-     *   5 - that the new position is not a box character 
-     * For what makes each test invalid, see the return details below.
+     * To validate the move, the method should (in order) check: 1 - that pos is valid. 2 - that the
+     * character at pos in board is in the valid array. 3 - that the delta is valid. 4 - that the
+     * new position is valid and not a wall character. 5 - that the new position is not a box
+     * character For what makes each test invalid, see the return details below.
      *
      * @param board The current board.
-     * @param pos The position to move from. A length 2 array, where index 0 is the row and 
-     *            index 1 is the column.
+     * @param pos The position to move from. A length 2 array, where index 0 is the row and index 1
+     *        is the column.
      * @param delta The move distance. A length 2 array, where index 0 is the change in row and
-     *              index 1 is the change in column.
+     *        index 1 is the change in column.
      * @param valid A character array containing the valid characters for the cell at pos.
-     * @return 1 if the move is valid.
-     * Otherwise:
-     *  -1 : if pos is null, not length 2, or not on the board.
-     *  -2 : if the character at pos is not valid (not in the valid array).
-     *  -3 : if delta is null or not length 2.
-     *  -4 : if the new position is off the board or a wall character
-     *  -5 : if the new position is a box character
+     * @return 1 if the move is valid. Otherwise: -1 : if pos is null, not length 2, or not on the
+     *         board. -2 : if the character at pos is not valid (not in the valid array). -3 : if
+     *         delta is null or not length 2. -4 : if the new position is off the board or a wall
+     *         character -5 : if the new position is a box character
      */
     public static int checkDelta(char[][] board, int[] pos, int[] delta, char[] valid) {
-        //FIX ME
+        // FIX ME
         return -99;
     }
 
     /**
-     * Changes a character on the board to one of two characters (opt1 or opt2), depending on the 
+     * Changes a character on the board to one of two characters (opt1 or opt2), depending on the
      * value of the cell.
      *
      * Check the cell at position pos. If the character is val, change it to opt1. Otherwise, change
@@ -271,88 +285,83 @@ public class Sokoban {
      *
      * @param board The current board.
      * @param pos The position to change. A length 2 array, where index 0 is the row and index 1 is
-     *            the column.
+     *        the column.
      * @param val The value to check for in the board.
      * @param opt1 The character to change to if the value is val.
      * @param opt2 The character to change to if the value is not val.
      */
     public static void togglePos(char[][] board, int[] pos, char val, char opt1, char opt2) {
-        //FIX ME
-    }   
+        // FIX ME
+    }
 
     /**
      * Moves a box on the board.
      *
-     * Step 1: Use your checkDelta method to check that the move is valid. Recall that there are
-     *         2 characters that can represent a box.
-     * Step 2: Use your togglePos method to correctly change the character at the new position to 
-     *         the appropriate box character.
-     * Step 3: Again use your togglePos method to correctly change the character at pos to the 
-     *         the appropriate character without a box.
+     * Step 1: Use your checkDelta method to check that the move is valid. Recall that there are 2
+     * characters that can represent a box. Step 2: Use your togglePos method to correctly change
+     * the character at the new position to the appropriate box character. Step 3: Again use your
+     * togglePos method to correctly change the character at pos to the the appropriate character
+     * without a box.
      *
      * @param board The current board.
      * @param pos The position to change. A length 2 array, where index 0 is the row and index 1 is
-     *            the column.
+     *        the column.
      * @param delta The move distance. A length 2 array, where index 0 is the change in row and
-     *              index 1 is the change in column.
+     *        index 1 is the change in column.
      * @return The return value of checkDelta if less than 1. Otherwise 1.
      */
     public static int shiftBox(char[][] board, int[] pos, int[] delta) {
-        //FIX ME
+        // FIX ME
         return -99;
     }
 
     /**
      * Processes a move of the worker step-by-step.
      *
-     * Go through the delta step-by-step, calling doMove for each step. 
-     * That is, if the delta is {0, -3}, your method should call doMove three times with an argument of
-     * {0, -1} for the delta parameter of doMove. Or, if the delta is {6, 0}, it would call the doMove
-     * six times with an argument of {1, 0} for the delta parameter of the doMove method. 
+     * Go through the delta step-by-step, calling doMove for each step. That is, if the delta is {0,
+     * -3}, your method should call doMove three times with an argument of {0, -1} for the delta
+     * parameter of doMove. Or, if the delta is {6, 0}, it would call the doMove six times with an
+     * argument of {1, 0} for the delta parameter of the doMove method.
      *
-     * During the processing of the move, if ever a call to doMove returns a value less than 1, your 
+     * During the processing of the move, if ever a call to doMove returns a value less than 1, your
      * method should stop processing and return that value.
      *
-     * Note: You can assume that one of the cells of delta will be 0. 
+     * Note: You can assume that one of the cells of delta will be 0.
      *
      * @param board The current board.
      * @param pos The position to change. A length 2 array, where index 0 is the row and index 1 is
-     *            the column.
+     *        the column.
      * @param delta The move distance. A length 2 array, where index 0 is the change in row and
-     *              index 1 is the change in column. 
-     * @return If both of the cells of delta are 0, return 0.
-     *         If the call to doMove returns a value less than 1, return that value.
-     *         Otherwise, return 1.
-     */    
+     *        index 1 is the change in column.
+     * @return If both of the cells of delta are 0, return 0. If the call to doMove returns a value
+     *         less than 1, return that value. Otherwise, return 1.
+     */
     public static int processMove(char[][] board, int[] pos, int[] delta) {
-        //FIX ME
+        // FIX ME
         return -99;
     }
 
     /**
      * Moves the worker on the board.
      *
-     * Step 1: Use your checkDelta method to check that the move is valid. Recall that there are
-     *         2 characters that can represent the worker.
-     * Step 2: If checkDelta returns -5, use your shiftBox method to move the box by delta before
-     *         moving the worker.
-     * Step 3: Use your togglePos method to correctly change the character at the new position to 
-     *         the appropriate worker character.
-     * Step 4: Again use your togglePos method to correctly change the character at pos to the 
-     *         the appropriate character without a worker.
-     * Step 5: Update the position of the worker in pos.
+     * Step 1: Use your checkDelta method to check that the move is valid. Recall that there are 2
+     * characters that can represent the worker. Step 2: If checkDelta returns -5, use your shiftBox
+     * method to move the box by delta before moving the worker. Step 3: Use your togglePos method
+     * to correctly change the character at the new position to the appropriate worker character.
+     * Step 4: Again use your togglePos method to correctly change the character at pos to the the
+     * appropriate character without a worker. Step 5: Update the position of the worker in pos.
      *
      * @param board The current board.
      * @param pos The position to change. A length 2 array, where index 0 is the row and index 1 is
-     *            the column.
+     *        the column.
      * @param delta The move distance. A length 2 array, where index 0 is the change in row and
-     *              index 1 is the change in column.
-     * @return If checkDelta returns a value less than 1 that is not -5, return that value. 
-     *         If checkDelta returns -5 and shiftBox returns a value less than 0, return 0.
-     *         Otherwise, return 1.
-     */    
+     *        index 1 is the change in column.
+     * @return If checkDelta returns a value less than 1 that is not -5, return that value. If
+     *         checkDelta returns -5 and shiftBox returns a value less than 0, return 0. Otherwise,
+     *         return 1.
+     */
     public static int doMove(char[][] board, int[] pos, int[] delta) {
-        //FIX ME
+        // FIX ME
         return -99;
     }
 
@@ -363,9 +372,8 @@ public class Sokoban {
      * @param board The current board.
      * @return true if all the goals are covered by boxes. Otherwise, false.
      */
-    public static boolean checkWin(char[][] board)
-    {
-        //FIX ME
+    public static boolean checkWin(char[][] board) {
+        // FIX ME
         return true;
     }
 
@@ -384,14 +392,32 @@ public class Sokoban {
      * @param args Unused.
      */
     public static void main(String[] args) {
-        
-        checkLevel(//fix me);
-        int min = 0;
-        int max = LEVELS[0]; 
-        for (int i = 0; i < LEVELS.length; ++i) {
-            if (LEVELS[i] > max) {
-                max = LEVELS[i];}}//fix me
         Scanner sc = new Scanner(System.in);
-        promptInt(//fix me);
-    }
+        System.out.println("Welcome to Sokoban!");
+        String prompt = "Choose a level between 0 and maxLvl: ";
+        int maxLvl = 2; 
+        int minLvl = 0;
+        int input = promptInt(sc, prompt, minLvl, maxLvl);
+        if (checkLevel(input, MyLevels.LEVELS, MyLevels.GOALS) ==1) { //check array parameters);
+            System.out.println("Sokoban Level lvl " + input); }
+
+            /* while (promptChar(Scanner sc, String prompt) == 'y') {
+            System.out.println(prompt);;
+           
+            int lvlChoice = sc.nextInt(); 
+            if (checlLevel(lvl, level array, goal array) != 1) {
+            }
+            System.out.println("Sokoban Level lvl " + lvlChoice);*/
+            
+        //play stuff
+            
+        String charPrompt = "Play again? (y/n)";
+            //char playAgain = sc.next().charAt(0);
+            if (promptChar(sc, charPrompt) == 'y') { //fix method call
+                continue; } else {
+                    break;}
+            System.out.print("Thanks for playing!");
+            }
 }
+
+
