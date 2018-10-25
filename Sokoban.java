@@ -129,7 +129,7 @@ public class Sokoban {
      *
      * @param lvl The index of the level to load.
      * @param levels The array containing the levels.
-     * @param goals The parallel array to levels, containg the goals for the levels.
+     * @param goals The parallel array to levels, containing the goals for the levels.
      * @return 1 if all tests pass. Otherwise if test: - Test 1 fails: 0 - Test 2 fails: -1 - Test 3
      *         fails: -2 - Test 4 fails: -3 - Test 5 fails: -4 - Test 6 fails: -5 - Test 7 fails: -6
      *         - Test 8 fails: -7
@@ -142,48 +142,33 @@ public class Sokoban {
         }
         // Test 2 -- lvl is a valid index in levels, that the 2-d array at index lvl exists and that
         // it contains at least 1 row.
-        if (lvl >= levels.length && levels[lvl].length < 1) {
+        if (lvl >= levels.length || levels[lvl].length < 1) {
+           
             // index not exists
             return -1;
         }
         // index exists
         // Test 3 -- lvl is a valid index in goals, the 1-d array at index lvl exists and that it
         // contains an even number of cells.
-        if (lvl >= goals.length && (goals[lvl].length % 2 != 0)) {
+       // lvl !< 0 or < goal.length
+        if (lvl >= goals.length || (goals[lvl].length % 2 != 0)) {
             return -2;
         }
         // Test 4 -- the number of boxes is more than 0.
         int boxCounter = 0;
-        for (int i = 0; i < levels.length; i++) {
-            for (int k = 0; k < levels[i].length; k++) {
-                for (int j = 0; j < levels[i][k].length; j++) {
-                    if (levels[i][k][j] == '=') {
+            for (int i = 0; i < levels[lvl].length; i++) {
+                for (int j = 0; j < levels[lvl][i].length; j++) {
+                    if (levels[lvl][i][j] == '=') {
                         boxCounter++;
                     }
                 }
             }
-        }
 
         if (boxCounter == 0) {
             return -3;
         }
         // Test 5 -- the number of boxes equals the number of goals.
-        boxCounter = 0;
-        int goalCounter = 0;
-        for (int i = 0; i < levels.length; i++) {
-            for (int k = 0; k < levels[i].length; k++) {
-                for (int j = 0; j < levels[i][k].length; j++) {
-                    if (levels[i][k][j] == '=') {
-                        boxCounter++;
-                    }
-                }
-            }
-        }
-        for (int i = 0; i < goals.length; i++) {
-            goalCounter = goals[i].length / 2;
-        }
-
-        if (boxCounter != goalCounter) {
+        if (boxCounter != goals[lvl].length/2) {
             return -4;
         }
 
@@ -191,22 +176,23 @@ public class Sokoban {
         // to a wall cell.
         for (int i = 0; i < goals[lvl].length; i += 2) {
 
-            int xCoord = goals[lvl][i];
-            int yCoord = goals[lvl][i + 1];
-            if (levels[lvl][yCoord][xCoord] == '#') {
+            int yCoord = goals[lvl][i];
+            int xCoord = goals[lvl][i + 1];
+            if(levels[lvl][yCoord][xCoord] == '\u0000') {
+                return -5;
+            }
+            if (levels[lvl][yCoord][xCoord] == Config.WALL_CHAR) {
                 return -5;
             }
         }
         // Test 7 -- the number of workers is exactly 1.
         int workerCounter = 0;
-        for (int i = 0; i < levels.length; i++) {
-            for (int k = 0; k < levels[i].length; k++) {
-                for (int j = 0; j < levels[i][k].length; j++) {
-                    if (levels[i][k][j] == '@') {
+        for (int i = 0; i < levels[lvl].length; i++) {
+            for (int k = 0; k < levels[lvl][i].length; k++) {
+                    if (levels[lvl][i][k] == Config.WORKER_CHAR) {
                         workerCounter++;
                     }
                 }
-            }
         }
         if (workerCounter != 1) {
             return -6;
@@ -401,31 +387,19 @@ public class Sokoban {
         int maxLvl = 1;
         int minLvl = 0;
         String charPrompt = "Play again? (y/n) ";
-        //char sc = 'y';
        
-        //while (promptChar(sc, charPrompt) == 'y') {
         do { 
         String prompt = "Choose a level between 0 and " + maxLvl + ": ";
         int input = promptInt(sc, prompt, minLvl, maxLvl);
-        //if (checkLevel(input, MyLevels.LEVELS, MyLevels.GOALS) ==1) { //check array parameters);
-            System.out.println("Sokoban Level" + input); //}
-
-            /* while (promptChar(Scanner sc, String prompt) == 'y') {
-            System.out.println(prompt);;
-           
-            int lvlChoice = sc.nextInt(); 
-            if (checlLevel(lvl, level array, goal array) != 1) {
-            }
-            System.out.println("Sokoban Level lvl " + lvlChoice);*/
+        if (checkLevel(input, MyLevels.LEVELS, MyLevels.GOALS) == 1) { //check array parameters); FIXME comment out l8tr
+            System.out.println("Sokoban Level " + input); }
             
         //play stuff
-            
          
-            //char playAgain = sc.next().charAt(0);
             if (promptChar(sc, charPrompt) == 'y') { //fix method call
                input = promptInt(sc, prompt, minLvl, maxLvl);
-                if (checkLevel(input, MyLevels.LEVELS, MyLevels.GOALS) ==1) { //check array parameters);
-                    System.out.println("Sokoban Level lvl " + input); } }
+                if (checkLevel(input, MyLevels.LEVELS, MyLevels.GOALS) == 1) { //check array parameters);
+                    System.out.println("Sokoban Level " + input); } }
         } while (promptChar(sc, charPrompt) == 'y');
         System.out.println("Thanks for playing!");    } 
 }

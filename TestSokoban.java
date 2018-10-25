@@ -43,60 +43,68 @@ public class TestSokoban {
     }
     
     private static void testCheckLevel() {
-        int numTests = 4;
+        int numTests = 8;
         int passed = numTests;
         int res;
-        char boxCheck;
-        int numBoxes = 0;
-        char workerCheck;
-        int numWorkers = 0;
+        //char boxCheck;
+        //int numBoxes = 0;
+//        char workerCheck;
+//        int numWorkers = 0;
         
         //Test 1
-        if((res = Sokoban.checkLevel(-1, Config.LEVELS, Config.GOALS)) != 0) {
+        if((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == 0) {
             System.out.println("FAILED: Sokoban.checkLevel Test 1. Expected 0, but value returned " + res);
             passed--;
         }
         
         //Test 2
-        char[][][] lvl = new char[MyLevels.LEVELS.length][MyLevels.LEVELS[0].length][MyLevels.LEVELS[0][0].length];
-        if((res = Sokoban.checkLevel(1, lvl, Config.GOALS)) != -1) {
-            //System.out.println("FAILED: Sokoban.checkLevel Test 2. Expected -1, but value returned " + res);
-            //passed--;
-        }
-
-        //Test 7
-        for (int i = 0; i < MyLevels.LEVELS.length; ++i) {
-        	for (int j = 0; j < MyLevels.LEVELS[i].length; ++j) {
-        		for (int k = 0; k < MyLevels.LEVELS[i][j].length; ++k) {
-        			workerCheck = MyLevels.LEVELS[i][j][k];
-        			if (workerCheck == '@') {
-        				numWorkers++;
-        			}
-        		}
-        	}
-        }
-        if (numWorkers != 1) {
-        	System.out.print("Failed");
+        char[][][] lvl = new char[2][3][0];
+        if((res = Sokoban.checkLevel(1, lvl, MyLevels.GOALS)) == -1) {
+            System.out.println("FAILED: Sokoban.checkLevel Test 2. Expected -1, but value returned " + res);
+            passed--;
         }
         
-       
+        //Test 3
+        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -2) {
+            System.out.println("FAILED: Sokoban.checkLevel Test 3. Expected -2, but value returned " + res);
+            passed--;
+        }
         
         //Test 4
-        for (int i = 0; i < MyLevels.LEVELS.length; ++i) {
-        	for (int j = 0; j < MyLevels.LEVELS[i].length; ++j) {
-        		for (int k = 0; k < MyLevels.LEVELS[i][j].length; ++k) {
-        			boxCheck = MyLevels.LEVELS[i][j][k];
-        			if (boxCheck == MyLevels.BOX_CHAR) {
-        				numBoxes++;
-        			}
-        		}
-        	}
+        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -3) {
+            System.out.println("FAILED: Sokoban.checkLevel Test 4. Expected -3, but value returned " + res);
+            passed--;
+        }
+
+        //Test 5
+        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -4) {
+            System.out.println("FAILED: Sokoban.checkLevel Test 5. Expected -4, but value returned " + res);
+            passed--;
         }
         
-        	
-        	
-        //FIXME Add more tests
+        //Test 6
+        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -5) {
+            System.out.println("FAILED: Sokoban.checkLevel Test 6. Expected -5, but value returned " + res);
+            passed--;
+        }
         
+        //Test 7
+        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -6) {
+            System.out.println("FAILED: Sokoban.checkLevel Test 7. Expected -6, but value returned " + res);
+            passed--;
+        }
+        
+        //Test 8
+        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -7) {
+            System.out.println("FAILED: Sokoban.checkLevel Test 8. Expected -7, but value returned " + res);
+            passed--;
+        }
+        
+        int[][] some = {{1, 1}, {2, 3, 4, 5}};
+        if ((res = Sokoban.checkLevel(4, new char[5][8][8], some)) == -2) {
+            System.out.println("FAILED: Sokoban.checkLevel Test 9. Expected -7, but value returned " + res);
+            passed--;
+        }
         System.out.println("testCheckLevel: Passed " + passed + " of " + numTests + " tests.");
     }
 
