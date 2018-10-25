@@ -65,9 +65,9 @@ public class MyLevels {
 	};
 	
 	public static final int[][] GOALS = {
-			{2, 1},
-			{5, 3, 5, 4},
-			{10, 3, 10, 4, 10, 5}
+			{1, 2}, //switch again if no work
+			{3, 5, 4, 5},
+			{3, 10, 4, 10, 5, 10}
 	};
 	
     public static final char UP_CHAR = '8';

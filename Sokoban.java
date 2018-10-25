@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.util.Random;
+//import java.util.Random;
 
 // https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
 
@@ -20,20 +20,24 @@ public class Sokoban {
      * @param max The maximum acceptable int value (inclusive).
      * @return Returns the value read from the user.
      */
-    public static int promptInt(Scanner sc, String prompt, int min, int max) {
-        while (true) {
+    public static int promptInt(Scanner sc, String prompt, int min, int max) {   
+        do {
             System.out.print(prompt);
-            int input = sc.nextInt();
-
-            if (input >= min || input <= max) {
-                return input;
+            //int input = sc.nextInt();
+            if (sc.hasNextInt()) {
+                int input = sc.nextInt();
+                if (input >= min && input <= max) {
+                    return input;
+                } else {
+                    System.out.println("Invalid value.");
+                }
             } else {
                 System.out.println("Invalid value.");
-
-            }
-
+                String s1 = sc.next();
+           }
+        } while(true); 
         }
-    }
+    
 
     /**
      * Prompts the user for a char value by displaying prompt. Note: This method should not be a new
@@ -394,12 +398,17 @@ public class Sokoban {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to Sokoban!");
-        String prompt = "Choose a level between 0 and maxLvl: ";
-        int maxLvl = 2; 
+        int maxLvl = 1;
         int minLvl = 0;
+        String charPrompt = "Play again? (y/n) ";
+        //char sc = 'y';
+       
+        //while (promptChar(sc, charPrompt) == 'y') {
+        do { 
+        String prompt = "Choose a level between 0 and " + maxLvl + ": ";
         int input = promptInt(sc, prompt, minLvl, maxLvl);
-        if (checkLevel(input, MyLevels.LEVELS, MyLevels.GOALS) ==1) { //check array parameters);
-            System.out.println("Sokoban Level lvl " + input); }
+        //if (checkLevel(input, MyLevels.LEVELS, MyLevels.GOALS) ==1) { //check array parameters);
+            System.out.println("Sokoban Level" + input); //}
 
             /* while (promptChar(Scanner sc, String prompt) == 'y') {
             System.out.println(prompt);;
@@ -411,14 +420,14 @@ public class Sokoban {
             
         //play stuff
             
-        String charPrompt = "Play again? (y/n)";
+         
             //char playAgain = sc.next().charAt(0);
             if (promptChar(sc, charPrompt) == 'y') { //fix method call
                input = promptInt(sc, prompt, minLvl, maxLvl);
                 if (checkLevel(input, MyLevels.LEVELS, MyLevels.GOALS) ==1) { //check array parameters);
                     System.out.println("Sokoban Level lvl " + input); } }
-            System.out.print("Thanks for playing!");
-            }
+        } while (promptChar(sc, charPrompt) == 'y');
+        System.out.println("Thanks for playing!");    } 
 }
 
 
