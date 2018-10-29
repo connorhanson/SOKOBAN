@@ -31,10 +31,10 @@ public class TestSokoban {
         // Milestone 1
         testCheckLevel();
         // Milestone 2
-        //testInitBoard();
-        //testCheckWin();
-        //testCalcDelta();
-        //testCheckDelta();
+        testInitBoard();
+        testCheckWin();
+        testCalcDelta();
+        testCheckDelta();
         // Milestone 3
         //testTogglePos();
         //testShiftBox();
@@ -46,10 +46,6 @@ public class TestSokoban {
         int numTests = 8;
         int passed = numTests;
         int res;
-        //char boxCheck;
-        //int numBoxes = 0;
-//        char workerCheck;
-//        int numWorkers = 0;
         
         //Test 1
         if((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == 0) {
@@ -99,12 +95,7 @@ public class TestSokoban {
             System.out.println("FAILED: Sokoban.checkLevel Test 8. Expected -7, but value returned " + res);
             passed--;
         }
-        
-        int[][] some = {{1, 1}, {2, 3, 4, 5}};
-        if ((res = Sokoban.checkLevel(4, new char[5][8][8], some)) == -2) {
-            System.out.println("FAILED: Sokoban.checkLevel Test 9. Expected -7, but value returned " + res);
-            passed--;
-        }
+       
         System.out.println("testCheckLevel: Passed " + passed + " of " + numTests + " tests.");
     }
 
@@ -124,7 +115,7 @@ public class TestSokoban {
         return true;
     }
     
-    private static void testInitBoard() {
+    public static void testInitBoard() {
         int numTests = 1;
         int passed = numTests;
 
@@ -150,13 +141,51 @@ public class TestSokoban {
         }
         //End of Test 1
         
+        //Test 2
+        
+        int[] pTest2 = new int[2];
+        char[][] bTest2 = Sokoban.initBoard(0, Config.LEVELS, Config.GOALS, pTest2);
+        if(!Arrays.equals(pTest2, new int[]{4, 4})) {
+            System.out.println("FAILED: Sokoban.initBoard Test 1. Expected initial position: {4, 4} , but value after call " + Arrays.toString(pTest2));
+            passed--;
+        }
+        char[][] bCompTest2 = new char[][]{{Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR},
+                                           {Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR},
+                                           {Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.GOAL_CHAR, Config.BOX_CHAR, Config.EMPTY_CHAR},
+                                           {Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR},
+                                           {Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.EMPTY_CHAR, Config.WORKER_CHAR}};
+        if(!compBoards(bTest2, bCompTest2)){
+            System.out.println("FAILED: Sokoban.initBoard Test 2. Board not as expected!");
+            System.out.println("Generated:");
+            Sokoban.printBoard(bTest2);
+            System.out.println("Expected:");
+            Sokoban.printBoard(bCompTest2);            
+            passed--;
+        } 
+        
         //FIXME Add more tests
         
         System.out.println("testInitBoard: Passed " + passed + " of " + numTests + " tests.");
     }
     
     private static void testCheckWin() {
-        //FIXME
+        int boxCounter = 0;
+        char boxCheck;
+        for (int i = 0; i < MyLevels.LEVELS[1].length; i++ ) {
+            for (int j = 0; j < MyLevels.LEVELS[1][i].length; j++) { 
+                if (MyLevels.LEVELS[1][i][j] == '=') {
+                    boxCheck = MyLevels.LEVELS[1][i][j];
+                    
+                } 
+            }
+        }
+       for (int i = 0; i < MyLevels.GOALS[i].length; i++) {
+           for (int j = 0; j < MyLevels.GOALS[i][j].length; j++) {
+               if (MyLevels.GOALS[i][j]) {
+                   
+               } 
+           }
+       }  
     }
     
     private static void testCalcDelta() {

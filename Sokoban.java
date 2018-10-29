@@ -94,8 +94,29 @@ public class Sokoban {
      * @return A two dimension array representing the initial configuration for the given level.
      */
     public static char[][] initBoard(int lvl, char[][][] levels, int[][] goals, int[] pos) {
-        // FIX ME
-        return null;
+        char[][] boardInit = null;
+        for (int i = 0; i < levels[lvl].length; ++i) {
+            //boardInit = new char [levels[lvl][i].length];
+            //boardInit[i] = levels[lvl][i];
+            for (int j = 0; j < levels[lvl][i].length; ++j) {
+                boardInit = new char[levels[i].length][levels[i][j].length]; // determines size of new array
+                boardInit[i] = levels[lvl][i];
+                boardInit[i][j] = levels[lvl][i][j];
+                if (levels[lvl][i][j] == Config.WORKER_CHAR) {
+                    pos[0] = levels[lvl][i][j];
+                    pos[1] = levels[lvl][i][j];
+                } if (levels[lvl][i][j] == MyLevels.GOALS[i][j]) {
+                    if (levels[lvl][i][j] == Config.WORKER_CHAR) {
+                        boardInit[i][j] = Config.WORK_GOAL_CHAR;
+                    } if (levels[lvl][i][j] == Config.BOX_CHAR) {
+                        boardInit[i][j] = Config.BOX_GOAL_CHAR;
+                    } else {
+                        boardInit[i][j] = Config.WORKER_CHAR;
+                    }
+                }
+            }
+        }
+        return boardInit;
     }
 
     /**
@@ -238,8 +259,31 @@ public class Sokoban {
      * @return The calculated movement vector as a 2 cell int array.
      */
     public static int[] calcDelta(String moveStr) {
-        // FIX ME
-        return null;
+        int[] moveInt = new int[2];
+        //Scanner sc = moveStr;
+        char moveStr1 = moveStr.charAt(0);
+        char moveStr2 = moveStr.charAt(1);
+        int moveMag = Integer.parseInt(moveStr2 + "");
+        
+        if (moveMag.hasNextInt() == false) { //idk how but check for int
+            moveMag = 1;
+        }
+        
+        if (moveStr1 == Config.UP_CHAR) { 
+            moveInt[0] = 1 * moveMag;
+        } else if (moveStr1 == Config.DOWN_CHAR) {
+            moveInt[0] = -1 * moveMag;
+        } else if (moveStr1 == Config.LEFT_CHAR) {
+            moveInt[1] = -1 * moveMag;
+        } else if (moveStr1 == Config.RIGHT_CHAR) {
+            moveInt[1] = 1 * moveMag;
+        } else {
+            moveInt[0] = 0;
+            moveInt[0] = 0;
+        }        
+        
+        return moveInt;
+        
     }
 
     /**
@@ -363,7 +407,15 @@ public class Sokoban {
      * @return true if all the goals are covered by boxes. Otherwise, false.
      */
     public static boolean checkWin(char[][] board) {
-        // FIX ME
+        for (int i = 0; i < board[i].length; ++i) {
+            for (int j = 0; j < board[i][j].length; ++j) { // how to fix??
+                if (board[i][j] == Config.GOAL_CHAR) {
+                    return false;
+                } if (board[i][j] == Config.WORK_GOAL_CHAR) {
+                    return false;
+                }
+            }
+        }
         return true;
     }
 
@@ -401,7 +453,10 @@ public class Sokoban {
                 if (checkLevel(input, MyLevels.LEVELS, MyLevels.GOALS) == 1) { //check array parameters);
                     System.out.println("Sokoban Level " + input); } }
         } while (promptChar(sc, charPrompt) == 'y');
-        System.out.println("Thanks for playing!");    } 
+        System.out.println("Thanks for playing!");   
+    
+        TestSokoban.testInitBoard(); }
+    
 }
 
 
