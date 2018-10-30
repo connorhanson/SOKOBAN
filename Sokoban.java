@@ -96,8 +96,6 @@ public class Sokoban {
     public static char[][] initBoard(int lvl, char[][][] levels, int[][] goals, int[] pos) {
         char[][] boardInit = null;
         for (int i = 0; i < levels[lvl].length; ++i) {
-            //boardInit = new char [levels[lvl][i].length];
-            //boardInit[i] = levels[lvl][i];
             for (int j = 0; j < levels[lvl][i].length; ++j) {
                 boardInit = new char[levels[i].length][levels[i][j].length]; // determines size of new array
                 boardInit[i] = levels[lvl][i];
