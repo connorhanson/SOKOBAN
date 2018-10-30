@@ -168,24 +168,53 @@ public class TestSokoban {
         System.out.println("testInitBoard: Passed " + passed + " of " + numTests + " tests.");
     }
     
-    private static void testCheckWin() {
-        int boxCounter = 0;
-        char boxCheck;
+    public static void testCheckWin() {
+        
+        int numTests = 3;
+        int passed = numTests;
+        
+        ArrayList <Integer> goalList = new ArrayList <Integer>(); 
+        for (int m=0; m < MyLevels.GOALS.length; ++m) {
+            for (int n = 0; n < MyLevels.GOALS[m].length; ++n) {
+                goalList.add(new Integer (MyLevels.GOALS[m][n]));
+                System.out.println(Arrays.toString(goalList.toArray()));
+
+            }}
+        
+        // Level 1
+        for (int i = 0; i < MyLevels.LEVELS[0].length; i++ ) {
+            for (int j = 0; j < MyLevels.LEVELS[0][i].length; j++) {
+                if (MyLevels.LEVELS[0][i][j] == Config.BOX_CHAR) {
+                    if (i == goalList.get(0)) {
+                        if (j == goalList.get(1)) {
+                            passed++;
+                        }
+                    }
+        }}}
+        System.out.println("testCheckWin: Passed " + passed + " of " + numTests + " tests.");
+        //Level 2
+        
         for (int i = 0; i < MyLevels.LEVELS[1].length; i++ ) {
-            for (int j = 0; j < MyLevels.LEVELS[1][i].length; j++) { 
-                if (MyLevels.LEVELS[1][i][j] == '=') {
-                    boxCheck = MyLevels.LEVELS[1][i][j];
-                    
-                } 
-            }
-        }
-       for (int i = 0; i < MyLevels.GOALS[i].length; i++) {
-           for (int j = 0; j < MyLevels.GOALS[i][j].length; j++) {
-               if (MyLevels.GOALS[i][j]) {
-                   
-               } 
-           }
-       }  
+            for (int j = 0; j < MyLevels.LEVELS[1][i].length; j++) {
+                if (MyLevels.LEVELS[1][i][j] == Config.BOX_CHAR) {
+                    if (i == goalList.get(2)) {
+                        if (j == goalList.get(3)) {
+                            passed++;
+                        }
+                    }}}}
+        
+        //Level 3
+        
+        for (int i = 0; i < MyLevels.LEVELS[2].length; i++ ) {
+            for (int j = 0; j < MyLevels.LEVELS[2][i].length; j++) {
+                if (MyLevels.LEVELS[2][i][j] == Config.BOX_CHAR) {
+                    if (i == goalList.get(4)) {
+                        if (j == goalList.get(5)) {
+                            passed++;
+                        }
+                    }}}}
+        System.out.println("testCheckWin: Passed " + passed + " of " + numTests + " tests.");
+
     }
     
     private static void testCalcDelta() {
