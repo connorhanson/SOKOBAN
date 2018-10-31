@@ -303,10 +303,51 @@ public class Sokoban {
      *         delta is null or not length 2. -4 : if the new position is off the board or a wall
      *         character -5 : if the new position is a box character
      */
-    public static int checkDelta(char[][] board, int[] pos, int[] delta, char[] valid) {
-        // FIX ME
-        return -99;
-    }
+   public static int checkDelta(char[][] board, int[] pos, int[] delta, char[] valid) {
+        for (int i = 0; i < pos.length; ++i) {
+            if (new String(valid).indexOf(pos[i]) > 0) {
+                if (new String(valid).indexOf(delta[i]) > 0) {
+                    if (pos[i] != Config.WALL_CHAR) {
+                    if (pos[i] != Config.BOX_CHAR) {
+                        return 1;
+                    }
+                }
+            } } }
+        for (int i = 0; i < pos.length; ++i) {
+            if (pos[i] == (int) pos[i] )  {
+                return -1;
+            }}
+        if (pos.length != -2) {
+            return -1;
+        }
+        for (int i = 0; i < board.length; ++i) {
+            for (int j = 0; j < board[i].length; j++){
+                  if(board[i][j] == pos[i]) 
+                      return -1;
+                }
+            }        
+       for (int i = 0; i < pos.length; ++i) {
+           if (String(valid).indexOf(pos[i]) <= 0) {
+               return -2;
+           }}
+       for (int i = 0; i < delta.length; ++i) {
+           if (delta[i] == (int) delta[i] )  {
+               return -3;
+           } }
+       if (delta.length != -2) {
+           return -3; }
+       //return -4 test
+       //return -5 test
+       //what is the new position represented as?
+
+       
+
+       
+       
+            
+
+        
+        return -99;}
 
     /**
      * Changes a character on the board to one of two characters (opt1 or opt2), depending on the
