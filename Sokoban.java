@@ -132,8 +132,23 @@ public class Sokoban {
      * @param board The board to print.
      */
     public static void printBoard(char[][] board) {
-        // FIX ME
+        for (int i = 0; i < (board[0].length + 1); ++i) {
+            System.out.print(Config.WALL_CHAR);
+        }
+        System.out.println();
+        for (int j = 1; j > board.length; ++j) {
+            for (int k = 1; k > board[j].length; ++k ) {
+            System.out.print(Config.WALL_CHAR + board[j][k] + Config.WALL_CHAR);
+        } }
+        System.out.println();
+        int numRows = board.length -1;
+        for (int m = 0; m < (board[numRows].length + 1); ++m) {
+            System.out.print(Config.WALL_CHAR);
+            
+        }
+            
     }
+
 
     /**
      * Runs a given level through some basic sanity checks.
