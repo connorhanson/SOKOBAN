@@ -9,6 +9,7 @@
  */
 
 import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
  * This class contains a few methods for testing methods in the Sokoban
@@ -31,7 +32,7 @@ public class TestSokoban {
         // Milestone 1
         testCheckLevel();
         // Milestone 2
-        testInitBoard();
+        testInitBoard(); //out of bounds: 2, maybe previous exception?
         testCheckWin();
         testCalcDelta();
         testCheckDelta();
@@ -48,50 +49,50 @@ public class TestSokoban {
         int res;
         
         //Test 1
-        if((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == 0) {
+        if((res = Sokoban.checkLevel(1, Config.LEVELS, Config.GOALS)) == 0) {
             System.out.println("FAILED: Sokoban.checkLevel Test 1. Expected 0, but value returned " + res);
             passed--;
         }
         
         //Test 2
         char[][][] lvl = new char[2][3][0];
-        if((res = Sokoban.checkLevel(1, lvl, MyLevels.GOALS)) == -1) {
+        if((res = Sokoban.checkLevel(1, lvl, Config.GOALS)) == -1) {
             System.out.println("FAILED: Sokoban.checkLevel Test 2. Expected -1, but value returned " + res);
             passed--;
         }
         
         //Test 3
-        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -2) {
+        if ((res = Sokoban.checkLevel(1, Config.LEVELS, Config.GOALS)) == -2) {
             System.out.println("FAILED: Sokoban.checkLevel Test 3. Expected -2, but value returned " + res);
             passed--;
         }
         
         //Test 4
-        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -3) {
+        if ((res = Sokoban.checkLevel(1, Config.LEVELS, Config.GOALS)) == -3) {
             System.out.println("FAILED: Sokoban.checkLevel Test 4. Expected -3, but value returned " + res);
             passed--;
         }
 
         //Test 5
-        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -4) {
+        if ((res = Sokoban.checkLevel(1, Config.LEVELS, Config.GOALS)) == -4) {
             System.out.println("FAILED: Sokoban.checkLevel Test 5. Expected -4, but value returned " + res);
             passed--;
         }
         
         //Test 6
-        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -5) {
+        if ((res = Sokoban.checkLevel(1, Config.LEVELS, Config.GOALS)) == -5) {
             System.out.println("FAILED: Sokoban.checkLevel Test 6. Expected -5, but value returned " + res);
             passed--;
         }
         
         //Test 7
-        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -6) {
+        if ((res = Sokoban.checkLevel(1, Config.LEVELS, Config.GOALS)) == -6) {
             System.out.println("FAILED: Sokoban.checkLevel Test 7. Expected -6, but value returned " + res);
             passed--;
         }
         
         //Test 8
-        if ((res = Sokoban.checkLevel(1, MyLevels.LEVELS, MyLevels.GOALS)) == -7) {
+        if ((res = Sokoban.checkLevel(1, Config.LEVELS, Config.GOALS)) == -7) {
             System.out.println("FAILED: Sokoban.checkLevel Test 8. Expected -7, but value returned " + res);
             passed--;
         }
@@ -121,7 +122,7 @@ public class TestSokoban {
 
         //Test 1
         int[] pTest1 = new int[2];
-        char[][] bTest1 = Sokoban.initBoard(0, Config.LEVELS, Config.GOALS, pTest1);
+        char[][] bTest1 = Sokoban.initBoard(0, Config.LEVELS, Config.GOALS, pTest1); //out of bounds :2
         if(!Arrays.equals(pTest1, new int[]{4, 4})) {
             System.out.println("FAILED: Sokoban.initBoard Test 1. Expected initial position: {4, 4} , but value after call " + Arrays.toString(pTest1));
             passed--;
@@ -174,17 +175,17 @@ public class TestSokoban {
         int passed = numTests;
         
         ArrayList <Integer> goalList = new ArrayList <Integer>(); 
-        for (int m=0; m < MyLevels.GOALS.length; ++m) {
-            for (int n = 0; n < MyLevels.GOALS[m].length; ++n) {
-                goalList.add(new Integer (MyLevels.GOALS[m][n]));
+        for (int m=0; m < Config.GOALS.length; ++m) {
+            for (int n = 0; n < Config.GOALS[m].length; ++n) {
+                goalList.add(new Integer (Config.GOALS[m][n]));
                 System.out.println(Arrays.toString(goalList.toArray()));
 
             }}
         
         // Level 1
-        for (int i = 0; i < MyLevels.LEVELS[0].length; i++ ) {
-            for (int j = 0; j < MyLevels.LEVELS[0][i].length; j++) {
-                if (MyLevels.LEVELS[0][i][j] == Config.BOX_CHAR) {
+        for (int i = 0; i < Config.LEVELS[0].length; i++ ) {
+            for (int j = 0; j < Config.LEVELS[0][i].length; j++) {
+                if (Config.LEVELS[0][i][j] == Config.BOX_CHAR) {
                     if (i == goalList.get(0)) {
                         if (j == goalList.get(1)) {
                             passed++;
@@ -194,9 +195,9 @@ public class TestSokoban {
         System.out.println("testCheckWin: Passed " + passed + " of " + numTests + " tests.");
         //Level 2
         
-        for (int i = 0; i < MyLevels.LEVELS[1].length; i++ ) {
-            for (int j = 0; j < MyLevels.LEVELS[1][i].length; j++) {
-                if (MyLevels.LEVELS[1][i][j] == Config.BOX_CHAR) {
+        for (int i = 0; i < Config.LEVELS[1].length; i++ ) {
+            for (int j = 0; j < Config.LEVELS[1][i].length; j++) {
+                if (Config.LEVELS[1][i][j] == Config.BOX_CHAR) {
                     if (i == goalList.get(2)) {
                         if (j == goalList.get(3)) {
                             passed++;
@@ -205,20 +206,30 @@ public class TestSokoban {
         
         //Level 3
         
-        for (int i = 0; i < MyLevels.LEVELS[2].length; i++ ) {
-            for (int j = 0; j < MyLevels.LEVELS[2][i].length; j++) {
-                if (MyLevels.LEVELS[2][i][j] == Config.BOX_CHAR) {
+       /** for (int i = 0; i < Config.LEVELS[2].length; i++ ) {
+            for (int j = 0; j < Config.LEVELS[2][i].length; j++) {
+                if (Config.LEVELS[2][i][j] == Config.BOX_CHAR) {
                     if (i == goalList.get(4)) {
                         if (j == goalList.get(5)) {
                             passed++;
                         }
-                    }}}}
+                    }}}} */
         System.out.println("testCheckWin: Passed " + passed + " of " + numTests + " tests.");
 
     }
     
     private static void testCalcDelta() {
-        //FIXME
+        //ArrayList <Integer> celcD = new ArrayList <Integer>();
+        int passed = 0;
+        int numTests = 1;
+        int[] correctArray = {2,0};
+        //int[] minArray = 
+        //for (int i = 0; i < )
+        
+        if(Sokoban.calcDelta("82") == correctArray) {
+            passed++;
+        } 
+        System.out.println("testCalcDelta: Passed " + passed + " of " + numTests + " tests.");
     }
     
     private static void testCheckDelta() {
