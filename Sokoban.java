@@ -360,18 +360,31 @@ public class Sokoban {
 
     public static int checkDelta(char[][] board, int[] pos, int[] delta, char[] valid) {
         
+        
+        valid[0] = Config.WALL_CHAR;
+        valid[1] = Config.GOAL_CHAR;
+        valid[2] = Config.BOX_CHAR;
+        valid[3] = Config.BOX_GOAL_CHAR;
+        valid[4] = Config.EMPTY_CHAR;
+        valid[5] = Config.WORK_GOAL_CHAR;
+        valid[6] = Config.WORKER_CHAR;
+        
         if (pos == null || pos.length != 2 || pos[0] >= board.length || pos[1] >= board[pos[0]].length) { //checks if null
             return -1;
         }
 
-
+        boolean asdf = false;
         for (int i = 0; i < valid.length; ++i) { //checks if in valid array
-            for (int j = 0; j <= valid.length; ++j) {
-            if (pos[i] != valid[j]) {
+            //for (int j = 0; j <= valid.length; ++j) {
+                System.out.println(Config.LEVELS[1][pos[0]][pos[1]]);
+                System.out.println(valid[i]);
+            if (Config.LEVELS[1][pos[0]][pos[1]] == valid[i]) {
+                asdf = true;
+            } }if (asdf == false) {
                 return -2;
             }
-            }
-        }
+            
+        
         
         if (delta == null || delta.length == 2) { //checks if delta is null
             return -3;
@@ -527,6 +540,16 @@ public class Sokoban {
      * @param args Unused.
      */
     public static void main(String[] args) {
+        
+        char[] valid = new char[7];
+        valid[0] = Config.WALL_CHAR;
+        valid[1] = Config.GOAL_CHAR;
+        valid[2] = Config.BOX_CHAR;
+        valid[3] = Config.BOX_GOAL_CHAR;
+        valid[4] = Config.EMPTY_CHAR;
+        valid[5] = Config.WORK_GOAL_CHAR;
+        valid[6] = Config.WORKER_CHAR;
+        
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to Sokoban!");
         int maxLvl = Config.LEVELS.length - 1;
@@ -551,6 +574,15 @@ public class Sokoban {
                 continue;//FIXME all thats left is fixing this bug and cleaning up checkDelta
             } else {
             calcDelta(promptString(sc, prompt1));
+            for (int i = 0; i < Config.LEVELS[1].length; ++i) {
+                for (int j = 0; j < Config.LEVELS[1][i].length; ++j ) {
+                    if (Config.LEVELS[1][i][j]== Config.WORKER_CHAR) {
+                        pos[0] = i;
+                        pos[1] = j;
+                        break; }}}
+            System.out.println(pos[0]);
+            System.out.println(pos[1]);
+            System.out.print(checkDelta(board, pos, calcDelta(promptString(sc, prompt1)), valid));
             break;
             }
             }
@@ -561,6 +593,4 @@ public class Sokoban {
     }
 
 }
-
-
 
