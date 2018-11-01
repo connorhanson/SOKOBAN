@@ -69,7 +69,7 @@ public class Sokoban {
      *         trailing whitespace removed.
      */
     public static String promptString(Scanner sc, String prompt) {
-        System.out.print(prompt);
+        System.out.println(prompt);
         String input = sc.nextLine().trim().toLowerCase();
         return input;
     }
@@ -303,47 +303,41 @@ public class Sokoban {
      * @return The calculated movement vector as a 2 cell int array.
      */
     public static int[] calcDelta(String moveStr) {
-        int[] movement = new int [2];
-        Scanner sc = new Scanner(moveStr);
-        int moveMag = 0;
-        int moveDirect = 0;
-       
-        if (moveStr.charAt(0) != Config.UP_CHAR && moveStr.charAt(0) != Config.DOWN_CHAR && moveStr.charAt(0) != Config.RIGHT_CHAR && moveStr.charAt(0) != Config.LEFT_CHAR) { 
-             moveDirect = 0;
-             moveMag = 0; 
-             movement[0] = moveDirect;
-             movement[1] = moveMag;
-             return movement;}
-             
+        int[] moveVec = new int[2];
+        int moveDir;
+        int moveMag;
         
-        char num = moveStr.charAt(0);
-        
-        if (num == Config.UP_CHAR) {
-            moveDirect = -1;
-        } else if (num == Config.DOWN_CHAR) {
-            moveDirect = 1;
-        } else if (num == Config.RIGHT_CHAR) {
-            moveDirect = 0;
-        } else if (num == Config.LEFT_CHAR) {
-            moveDirect = 0;
+        if (moveStr.length() < 2) { // if string is more than two else branch happens
+            moveMag = 1;
         } else {
-            moveDirect = 0;
-        }
-       int num2 = Integer.parseInt(moveStr.substring(1, 2));
-       moveMag = num2;
-       System.out.print(num2);
-        
-        if (moveMag == 1) {
-            moveMag = 0;
-        }
-        
-       movement[0] = moveDirect;
-       System.out.print(movement[0]);
-        movement[1] = moveMag;
-        System.out.print(movement[1]);
-        return movement;
-    }
+            Scanner sc = new Scanner(moveStr.substring(1, moveStr.length() - 1));
+            if (sc.hasNextInt() == false) {
+            moveMag = 1;
+            }
+            else {
+            moveMag = Integer.parseInt(moveStr.substring(1, moveStr.length()));
+        } }
 
+        moveDir = (int)moveStr.charAt(0);
+        
+        if ((char)moveDir == Config.UP_CHAR) {
+            moveVec[0] = -1 * moveMag;
+        } else if ((char)moveDir == Config.DOWN_CHAR) {
+            moveVec[0] = moveMag;
+        } else if ((char)moveDir == Config.LEFT_CHAR) {
+            moveVec[1] = -1 * moveMag;
+        } else if ((char)moveDir == Config.RIGHT_CHAR) {
+            moveVec[1] = moveMag;
+        }
+        if ((char)moveDir != Config.UP_CHAR && (char)moveDir != Config.DOWN_CHAR && (char)moveDir != Config.LEFT_CHAR && (char)moveDir != Config.RIGHT_CHAR) { //if none of valid chars for 1st char
+            moveVec[0] = 0;
+            moveVec[1] = 0;
+            return moveVec;
+        }
+        
+        return moveVec;
+    }
+        
     /**
      * This method checks that moving from one position to another position is a valid move.
      *
@@ -579,26 +573,24 @@ public class Sokoban {
             if (checkLevel(input, Config.LEVELS, Config.GOALS) == 1) { // check array parameters);
                 System.out.println("Sokoban Level " + input);
             }
+            
             String prompt1 = ":";
-            do {
+            String str1 = "";
+            while (str1.equals(Config.QUIT_CHAR) == false) {
             char[][] board = initBoard(input, Config.LEVELS, Config.GOALS, pos);
             printBoard(board);
-            promptString(sc, prompt1);
-            } while (promptString(sc, prompt1).equals(Config.QUIT_CHAR) == false);
-            // game loop
-            // play stuff
-
-            if (promptChar(sc, charPrompt) == 'y') { // fix method call
-                input = promptInt(sc, prompt, minLvl, maxLvl);
-                if (checkLevel(input, Config.LEVELS, Config.GOALS) == 1) { // check array
-                                                                           // parameters);
-                    System.out.println("Sokoban Level " + input);
-                }
+            //promptString(sc, prompt1);
+            if (promptString(sc,prompt1).length() == 0) { //FIXME idk why it prints out stuff twice but calcdelta works
+                continue;//FIXME all thats left is fixing this bug and cleaning up checkDelta
+            } else {
+            calcDelta(promptString(sc, prompt1));
+            break;
             }
+            }
+            
         } while (promptChar(sc, charPrompt) == 'y');
         System.out.println("Thanks for playing!");
 
-        // TestSokoban.testInitBoard();
     }
 
 }
