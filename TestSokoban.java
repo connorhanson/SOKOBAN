@@ -219,17 +219,29 @@ public class TestSokoban {
     }
     
     private static void testCalcDelta() {
-        //ArrayList <Integer> celcD = new ArrayList <Integer>();
         int passed = 0;
-        int numTests = 1;
-        int[] correctArray = {2,0};
-        //int[] minArray = 
-        //for (int i = 0; i < )
+        int numTests = 2;
         
-        if(Sokoban.calcDelta("82") == correctArray) {
-            passed++;
-        } 
-        System.out.println("testCalcDelta: Passed " + passed + " of " + numTests + " tests.");
+        
+        int[] plsWork = Sokoban.calcDelta("81");
+        
+        System.out.println(plsWork[0]);
+
+      if (plsWork[0] == -1) {
+          if (plsWork[1] == 0) {
+             passed ++;
+          
+      }}
+      
+      int[] plsWorkPt2 = Sokoban.calcDelta("65");
+      
+      if (plsWorkPt2[0] == 0) {
+          if (plsWorkPt2[1] == 5) {
+              passed++;
+          }
+      }
+      
+      System.out.println("testCalcDelta passed" + passed + " of " + numTests + " tests.");
     }
     
     private static void testCheckDelta() {
