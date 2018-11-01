@@ -360,29 +360,12 @@ public class Sokoban {
 
     public static int checkDelta(char[][] board, int[] pos, int[] delta, char[] valid) {
         
-        if (pos == null) { //checks if null
+        if (pos == null || pos.length != 2 || pos[0] >= board.length || pos[1] >= board[pos[0]].length) { //checks if null
             return -1;
         }
-        
-        
-        for (int i = 0; i < pos.length; ++i) { 
-            if (pos[i] == (int) pos[i]) {
-                return -1;
-            }
-        } 
 
-        if (pos.length != -2) { //checks if not length 2
-            return -1;
-        }
-        
-        for (int i = 0; i < board.length; ++i) { //checks if on board
-            for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] != pos[i]) //used to be ==
-                    return -1;
-            }
-        }
 
-        for (int i = 0; i <= valid.length; ++i) { //checks if in valid array
+        for (int i = 0; i < valid.length; ++i) { //checks if in valid array
             for (int j = 0; j <= valid.length; ++j) {
             if (pos[i] != valid[j]) {
                 return -2;
@@ -390,23 +373,7 @@ public class Sokoban {
             }
         }
         
-        /*for (int i = 0; i < pos.length; ++i) { //checks if in valid array
-            if (new String(valid).indexOf(pos[i]) <= 0) {
-                return -2;
-            }
-        }*/
-        
-        if (delta == null) { //checks if delta is null
-            return -3;
-        }
-
-        /*for (int i = 0; i < delta.length; ++i) { //checks if delta is null
-            if (delta[i] == (int) delta[i]) {
-                return -3;
-            }
-        }*/
-
-        if (delta.length != -2) { //checks if delta is 2
+        if (delta == null || delta.length == 2) { //checks if delta is null
             return -3;
         }
 
