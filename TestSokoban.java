@@ -220,7 +220,7 @@ public class TestSokoban {
     
     private static void testCalcDelta() {
         int passed = 0;
-        int numTests = 2;
+        int numTests = 3;
         
         
         int[] plsWork = Sokoban.calcDelta("81");
@@ -230,6 +230,7 @@ public class TestSokoban {
       if (plsWork[0] == -1) {
           if (plsWork[1] == 0) {
              passed ++;
+             System.out.print("oassed 1");
           
       }}
       
@@ -238,6 +239,16 @@ public class TestSokoban {
       if (plsWorkPt2[0] == 0) {
           if (plsWorkPt2[1] == 5) {
               passed++;
+              System.out.print("passed 2");
+          }
+      }
+      
+      int[] plsWorkPt3 = Sokoban.calcDelta("z");
+      
+      if (plsWorkPt3[0] == 0 ) {
+          if (plsWorkPt3[1] == 0) {
+              passed++;
+              System.out.print("passed 3");
           }
       }
       
