@@ -158,7 +158,6 @@ public class Sokoban {
         /*for (int i = 0; i <= (board[0].length + 1); ++i) {
             System.out.print(Config.WALL_CHAR);
         }
-
         System.out.println();
         for (int j = 0; j < board.length; ++j) {
             System.out.print(Config.WALL_CHAR);
@@ -167,7 +166,6 @@ public class Sokoban {
             }
             System.out.println(Config.WALL_CHAR);
         }
-
         int numRows = board.length - 1;
         for (int m = 0; m <= (board[numRows].length + 1); ++m) {
             System.out.print(Config.WALL_CHAR);
@@ -310,26 +308,28 @@ public class Sokoban {
         int moveMag = 0;
         int moveDirect = 0;
        
-        if (!sc.hasNextInt()) { 
+        if (moveStr.charAt(0) != Config.UP_CHAR && moveStr.charAt(0) != Config.DOWN_CHAR && moveStr.charAt(0) != Config.RIGHT_CHAR && moveStr.charAt(0) != Config.LEFT_CHAR) { 
              moveDirect = 0;
-             moveMag = 0; }
+             moveMag = 0; 
+             movement[0] = moveDirect;
+             movement[1] = moveMag;
+             return movement;}
              
         
-        int num = Integer.parseInt(moveStr.substring(0, 1));
-        System.out.print(num);
+        char num = moveStr.charAt(0);
         
-        if (num == 8) {
+        if (num == Config.UP_CHAR) {
             moveDirect = -1;
-        } else if (num == 2) {
+        } else if (num == Config.DOWN_CHAR) {
             moveDirect = 1;
-        } else if (num == 6) {
+        } else if (num == Config.RIGHT_CHAR) {
             moveDirect = 0;
-        } else if (num == 4) {
+        } else if (num == Config.LEFT_CHAR) {
             moveDirect = 0;
         } else {
             moveDirect = 0;
         }
-        int num2 = Integer.parseInt(moveStr.substring(1, 2));
+       int num2 = Integer.parseInt(moveStr.substring(1, 2));
        moveMag = num2;
        System.out.print(num2);
         
@@ -340,7 +340,7 @@ public class Sokoban {
        movement[0] = moveDirect;
        System.out.print(movement[0]);
         movement[1] = moveMag;
-        
+        System.out.print(movement[1]);
         return movement;
     }
 
@@ -602,5 +602,6 @@ public class Sokoban {
     }
 
 }
+
 
 
