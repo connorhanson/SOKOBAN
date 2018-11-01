@@ -245,8 +245,41 @@ public class TestSokoban {
     }
     
     private static void testCheckDelta() {
-        //FIXME
+        int passed = 0;
+        int [] pos = new int [2];
+        for (int i = 0; i < Config.LEVELS[1].length; ++i) {
+            for (int j = 0; j < Config.LEVELS[1][i].length; ++j ) {
+                if (Config.LEVELS[1][i][j]== Config.WORKER_CHAR) {
+                    pos[0] = i;
+                    pos[1] = j;
+                    System.out.println(pos[0]);
+                    System.out.println(pos[1]);
+                    break;
+                }
+            }
+           // System.out.println(pos[0]);
+            //System.out.println(pos[1]);
+            
+        }
+        char [] valid = new char [7];
+            valid[0] = Config.WALL_CHAR;
+            valid[1] = Config.GOAL_CHAR;
+            valid[2] = Config.BOX_CHAR;
+            valid[3] = Config.BOX_GOAL_CHAR;
+            valid[4] = Config.EMPTY_CHAR;
+            valid[5] = Config.WORK_GOAL_CHAR;
+            valid[6] = Config.WORKER_CHAR;
+            
+            System.out.println(Sokoban.checkDelta(Config.LEVELS[1], pos, Sokoban.calcDelta("85"), valid));
+        
+        
+        if (Sokoban.checkDelta(Config.LEVELS[1], pos, Sokoban.calcDelta("85"), valid) == 1) {
+            passed++;
+        }
+        
+        System.out.print("testCheckDelta passed" + passed + " of 1 test");
     }
+    
     
     private static void testTogglePos() {
         //FIXME
