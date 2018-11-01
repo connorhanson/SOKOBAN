@@ -93,65 +93,32 @@ public class Sokoban {
      * @return A two dimension array representing the initial configuration for the given level.
      */
     public static char[][] initBoard(int lvl, char[][][] levels, int[][] goals, int[] pos) {
-
        
-        char[][] boardInit = new char[levels[lvl].length][levels[lvl][levels[lvl].length - 1].length];
-
-        for (int i = 0; i < levels[lvl].length; ++i) { //x axis for loop
-                for (int j = 0; j < levels[lvl][i].length; ++j) { //y axis
+        char[][] boardInit = new char[levels[lvl].length][];
+        for (int i = 0; i < levels[lvl].length; ++i) { //x axis for loop actually y
+            boardInit[i] = new char[levels[lvl][i].length];
+                for (int j = 0; j < levels[lvl][i].length; ++j) { //y axis actually x
                     boardInit[i][j] = levels[lvl][i][j];
+                    if (boardInit[i][j] == Config.WORKER_CHAR) {
+                    pos[0] = i;
+                    pos[1] = j;
+                    }
                 }
         }
         
+        for (int i = 0; i < goals[lvl].length; i += 2) { //runs thru goal array
+            int yAxis = goals[lvl][i];
+            int xAxis = goals[lvl][i+1];
+            if (boardInit[yAxis][xAxis] == Config.WORKER_CHAR) {
+                boardInit[yAxis][xAxis] = Config.WORK_GOAL_CHAR;
+            } else if (boardInit[yAxis][xAxis] == Config.BOX_CHAR) {
+                boardInit[yAxis][xAxis] = Config.BOX_GOAL_CHAR;
+            } else {
+                boardInit[yAxis][xAxis] = Config.GOAL_CHAR;
+            }
+        } 
         return boardInit;  
-        
-        /**for (int i = 0; i < levels[lvl].length; ++i) {
-            for (int j = 0; j < levels[lvl][i].length; ++j) {
-                 // out of bounds
-                boardInit[i] = levels[lvl][i];
-                boardInit[i][j] = levels[lvl][i][j];
-                // System.out.println(levels[lvl][i].length); // test statement if i can ever find
-                // how to use method
-                if (levels[lvl][i][j] == Config.WORKER_CHAR) {
-                    pos[0] = i; //levels[lvl][i][j];
-                    pos[1] = j; //levels[lvl][i][j];
-                }
-                /*for (int k = 0; k < goals[lvl].length; ++k) {
-                    if (i == goals[lvl][k] && k == goals[lvl][k + 1]) { // outofboundserror: 2, used
-                                                                        // to be
-                        System.out.println("Testing");
-                        // Config.GOALS[i][j]
-                        if (levels[lvl][i][j] == Config.WORKER_CHAR) {
-                            boardInit[i][j] = Config.WORK_GOAL_CHAR;
-                        }
-                        if (levels[lvl][i][j] == Config.BOX_CHAR) {
-                            boardInit[i][j] = Config.BOX_GOAL_CHAR;
-                        } else {
-                            boardInit[i][j] = Config.WORKER_CHAR;
-                        }
-                    }
-                }
-                } //*
-               for (int k = 0; k < goals.length; ++k) { //might be goals[lvl].length
-                            // Config.GOALS[i][j]
-                   System.out.println(goals.length);
-                            if (levels[lvl][k][k+1] == Config.WORKER_CHAR) {
-                                boardInit[k][k+1] = Config.WORK_GOAL_CHAR; //out of bounds array max is [8][6]
-                            }
-                            if (levels[lvl][k][k+1] == Config.BOX_CHAR) {
-                                //boardInit[k][k+1] = Config.BOX_GOAL_CHAR; //nullpointer
-                            } else {
-                                //boardInit[k][k+1] = Config.WORKER_CHAR; //nullpoint
-                            }
-                    } 
-                   
-                }
-        } */
-        //return boardInit;
     }
-
-
-
 
     /**
      * Prints out the game board.
@@ -169,7 +136,7 @@ public class Sokoban {
      */
     public static void printBoard(char[][] board) {
         
-        for (int i = 0; i <= board.length + 1; ++i) { // top wall
+        for (int i = 0; i <= board[0].length + 1; ++i) { // top wall
             System.out.print(Config.WALL_CHAR);
         }
         System.out.println();
@@ -177,13 +144,12 @@ public class Sokoban {
         for (int i = 0; i < board.length; ++i) { //body + side wall
             System.out.print(Config.WALL_CHAR);
             for (int j = 0; j < board[i].length; ++j) {
-                //System.out.print(board[i][j]);
-                System.out.print("a");
+                System.out.print(board[i][j]);
             } 
             System.out.println(Config.WALL_CHAR);
             }
         
-        for (int i = 0; i <= board[0].length + 1; ++i) {
+        for (int i = 0; i <= board[board.length -1].length + 1; ++i) {
             System.out.print(Config.WALL_CHAR);
         }
     }
@@ -339,33 +305,43 @@ public class Sokoban {
      * @return The calculated movement vector as a 2 cell int array.
      */
     public static int[] calcDelta(String moveStr) {
-        int[] moveInt = new int[2];
-        // Scanner sc = moveStr;
-        char moveStr1 = moveStr.charAt(0);
-        char moveStr2 = moveStr.charAt(1);
-        System.out.println(moveStr1);
-        System.out.println(moveStr2);
-        int moveMag = Integer.parseInt(moveStr2 + ""); // magnitude of movement
-
-        if (moveMag != (int) moveMag) { // idk how but check for int
-            moveMag = 1;
-        }
-
-        if (moveStr1 == Config.UP_CHAR) {
-            moveInt[0] = 1 * moveMag;
-        } else if (moveStr1 == Config.DOWN_CHAR) {
-            moveInt[0] = -1 * moveMag;
-        } else if (moveStr1 == Config.LEFT_CHAR) {
-            moveInt[1] = -1 * moveMag;
-        } else if (moveStr1 == Config.RIGHT_CHAR) {
-            moveInt[1] = 1 * moveMag;
+        int[] movement = new int [2];
+        Scanner sc = new Scanner(moveStr);
+        int moveMag = 0;
+        int moveDirect = 0;
+       
+        if (!sc.hasNextInt()) { 
+             moveDirect = 0;
+             moveMag = 0; }
+             
+        
+        int num = Integer.parseInt(moveStr.substring(0, 1));
+        System.out.print(num);
+        
+        if (num == 8) {
+            moveDirect = -1;
+        } else if (num == 2) {
+            moveDirect = 1;
+        } else if (num == 6) {
+            moveDirect = 0;
+        } else if (num == 4) {
+            moveDirect = 0;
         } else {
-            moveInt[0] = 0;
-            moveInt[1] = 0;
+            moveDirect = 0;
         }
-
-        return moveInt;
-
+        int num2 = Integer.parseInt(moveStr.substring(1, 2));
+       moveMag = num2;
+       System.out.print(num2);
+        
+        if (moveMag == 1) {
+            moveMag = 0;
+        }
+        
+       movement[0] = moveDirect;
+       System.out.print(movement[0]);
+        movement[1] = moveMag;
+        
+        return movement;
     }
 
     /**
@@ -389,56 +365,81 @@ public class Sokoban {
      */
 
     public static int checkDelta(char[][] board, int[] pos, int[] delta, char[] valid) {
-        for (int i = 0; i < pos.length; ++i) {
-            if (new String(valid).indexOf(pos[i]) > 0) {
-                if (new String(valid).indexOf(delta[i]) > 0) {
-                    if (pos[i] != Config.WALL_CHAR) {
-                        if (pos[i] != Config.BOX_CHAR) {
-                            return 1;
-                        }
-                    }
-                }
-            }
+        
+        if (pos == null) { //checks if null
+            return -1;
         }
-
-        for (int i = 0; i < pos.length; ++i) {
+        
+        
+        for (int i = 0; i < pos.length; ++i) { 
             if (pos[i] == (int) pos[i]) {
                 return -1;
             }
-        }
+        } 
 
-        if (pos.length != -2) {
+        if (pos.length != -2) { //checks if not length 2
             return -1;
         }
-        for (int i = 0; i < board.length; ++i) {
+        
+        for (int i = 0; i < board.length; ++i) { //checks if on board
             for (int j = 0; j < board[i].length; j++) {
-                if (board[i][j] == pos[i])
+                if (board[i][j] != pos[i]) //used to be ==
                     return -1;
             }
         }
 
-        for (int i = 0; i < pos.length; ++i) {
+        for (int i = 0; i <= valid.length; ++i) { //checks if in valid array
+            for (int j = 0; j <= valid.length; ++j) {
+            if (pos[i] != valid[j]) {
+                return -2;
+            }
+            }
+        }
+        
+        /*for (int i = 0; i < pos.length; ++i) { //checks if in valid array
             if (new String(valid).indexOf(pos[i]) <= 0) {
                 return -2;
             }
-        }
-
-        for (int i = 0; i < delta.length; ++i) {
-            if (delta[i] == (int) delta[i]) {
-                return -3;
-            }
-        }
-
-        if (delta.length != -2) {
+        }*/
+        
+        if (delta == null) { //checks if delta is null
             return -3;
         }
 
-        // return -4 test
-        // return -5 test
-        // what is the new position represented as?
+        /*for (int i = 0; i < delta.length; ++i) { //checks if delta is null
+            if (delta[i] == (int) delta[i]) {
+                return -3;
+            }
+        }*/
 
-        return -99;
+        if (delta.length != -2) { //checks if delta is 2
+            return -3;
+        }
+
+        for (int i = 0; i < board.length; ++i) { //checks if new pos is wall char
+            if(pos[i] == Config.WALL_CHAR) {
+                return -4;
+            }
+        }
+        
+        for (int i = 0; i < board.length; ++i) { //checks if on board
+            for (int j = 0; j < board[i].length; ++j) {
+                if (pos[i] > board[i].length) {
+                    
+                }
+            }
+        }
+
+        for (int i = 0; i < board.length; ++i) { //if new pos is box char
+            if (pos[i] == Config.BOX_CHAR) {
+                return -5;
+            }
+        }
+
+        return 1;
     }
+
+
 
     /**
      * Changes a character on the board to one of two characters (opt1 or opt2), depending on the
@@ -570,34 +571,21 @@ public class Sokoban {
         int maxLvl = Config.LEVELS.length - 1;
         int minLvl = 0;
         String charPrompt = "Play again? (y/n) ";
-        int[] pos = {1,1}; //FIXME
+        int[] pos = new int[2]; 
         
-
         do {
             String prompt = "Choose a level between 0 and " + maxLvl + ": ";
             int input = promptInt(sc, prompt, minLvl, maxLvl); // lvl chosen
             if (checkLevel(input, Config.LEVELS, Config.GOALS) == 1) { // check array parameters);
-                                                                       // FIXME comment out l8tr
                 System.out.println("Sokoban Level " + input);
             }
-            
+            String prompt1 = ":";
+            do {
             char[][] board = initBoard(input, Config.LEVELS, Config.GOALS, pos);
             printBoard(board);
-
+            promptString(sc, prompt1);
+            } while (promptString(sc, prompt1).equals(Config.QUIT_CHAR) == false);
             // game loop
-
-            do {
-                //printBoard(Config.LEVELS[input]);
-                promptString(sc, ":");
-                if (promptString(sc, ":") == null) {
-                    continue;
-                } else if (promptString(sc, ":").equals(Config.QUIT_CHAR)) {
-                    break;
-                } else {
-                    calcDelta(promptString(sc, ":"));
-                }
-            } while (promptString(sc, ":").equals(Config.QUIT_CHAR) == false);
-
             // play stuff
 
             if (promptChar(sc, charPrompt) == 'y') { // fix method call
