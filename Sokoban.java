@@ -566,17 +566,16 @@ public class Sokoban {
             String prompt = "Choose a level between 0 and " + maxLvl + ": ";
             int input = promptInt(sc, prompt, minLvl, maxLvl); // lvl chosen
             String garbage = sc.nextLine();
-            if (checkLevel(input, Config.LEVELS, Config.GOALS) == 1) { // check array parameters);
+            //if (checkLevel(input, Config.LEVELS, Config.GOALS) == 1) { // check array parameters); // shit aint running in zybooks
                 System.out.println("Sokoban Level " + input);
-            }
+            //}
             
             String prompt1 = ": ";
             String str1 = "";
             while (true) {
             char[][] board = initBoard(input, Config.LEVELS, Config.GOALS, pos);
-            printBoard(board);
-            
             while (true) {
+            printBoard(board);
             str1 = promptString(sc,prompt1);
             if (str1.length() == 0) {
                 continue; }
