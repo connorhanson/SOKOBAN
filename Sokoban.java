@@ -69,7 +69,7 @@ public class Sokoban {
      *         trailing whitespace removed.
      */
     public static String promptString(Scanner sc, String prompt) {
-        System.out.println(prompt);
+        System.out.print(prompt);
         String input = sc.nextLine().trim().toLowerCase();
         return input;
     }
@@ -151,7 +151,7 @@ public class Sokoban {
         
         for (int i = 0; i <= board[board.length -1].length + 1; ++i) {
             System.out.print(Config.WALL_CHAR);
-        }
+        } System.out.println();
     }
     
         //initBoard(int lvl, char[][][] Config.LEVELS, int[][] Config.GOALS, int[] pos);
@@ -306,7 +306,7 @@ public class Sokoban {
         int[] moveVec = new int[2];
         int moveDir;
         int moveMag;
-        
+            
         if (moveStr.length() < 2) { // if string is more than two else branch happens
             moveMag = 1;
         } else {
@@ -335,7 +335,7 @@ public class Sokoban {
             return moveVec;
         }
         
-        return moveVec;
+        return moveVec; 
     }
         
     /**
@@ -369,14 +369,20 @@ public class Sokoban {
         valid[5] = Config.WORK_GOAL_CHAR;
         valid[6] = Config.WORKER_CHAR;
         
+        System.out.println(board.length + "length");
+        //System.out.println(board[pos[0]].length + "length[]");
+        System.out.println(pos[0] + " pos[0]");
+        System.out.println(pos[1] + "pos[1]");
+        System.out.println(pos);
+        
         if (pos == null || pos.length != 2 || pos[0] >= board.length || pos[1] >= board[pos[0]].length) { //checks if null
             return -1;
         }
 
         boolean asdf = false;
-        for (int i = 0; i < valid.length; ++i) { //checks if in valid array
+        for (int i = 0; i < valid.length; ++i) { //checks if in valid array 
             //for (int j = 0; j <= valid.length; ++j) {
-                System.out.println(Config.LEVELS[1][pos[0]][pos[1]]);
+                System.out.println(Config.LEVELS[0][pos[0]][pos[1]]);
                 System.out.println(valid[i]);
             if (Config.LEVELS[1][pos[0]][pos[1]] == valid[i]) {
                 asdf = true;
@@ -384,9 +390,7 @@ public class Sokoban {
                 return -2;
             }
             
-        
-        
-        if (delta == null || delta.length == 2) { //checks if delta is null
+        if (delta == null || delta.length != 2) { //checks if delta is null WORKS
             return -3;
         }
 
@@ -551,6 +555,7 @@ public class Sokoban {
         valid[6] = Config.WORKER_CHAR;
         
         Scanner sc = new Scanner(System.in);
+        //Scanner s = new Scanner("0");
         System.out.println("Welcome to Sokoban!");
         int maxLvl = Config.LEVELS.length - 1;
         int minLvl = 0;
@@ -560,29 +565,33 @@ public class Sokoban {
         do {
             String prompt = "Choose a level between 0 and " + maxLvl + ": ";
             int input = promptInt(sc, prompt, minLvl, maxLvl); // lvl chosen
+            String garbage = sc.nextLine();
             if (checkLevel(input, Config.LEVELS, Config.GOALS) == 1) { // check array parameters);
                 System.out.println("Sokoban Level " + input);
             }
             
-            String prompt1 = ":";
+            String prompt1 = ": ";
             String str1 = "";
-            while (str1.equals(Config.QUIT_CHAR) == false) {
+            while (true) {
             char[][] board = initBoard(input, Config.LEVELS, Config.GOALS, pos);
             printBoard(board);
-            //promptString(sc, prompt1);
-            if (promptString(sc,prompt1).length() == 0) { //FIXME idk why it prints out stuff twice but calcdelta works
-                continue;//FIXME all thats left is fixing this bug and cleaning up checkDelta
+            
+            while (true) {
+            str1 = promptString(sc,prompt1);
+            if (str1.length() == 0) {
+                continue; }
+            break; }
+
+            if (str1.equals(Config.QUIT_CHAR) == true) { //if user inputs q
+                break;
             } else {
-            calcDelta(promptString(sc, prompt1));
-            for (int i = 0; i < Config.LEVELS[1].length; ++i) {
-                for (int j = 0; j < Config.LEVELS[1][i].length; ++j ) {
+            calcDelta(str1);
+            for (int i = 0; i < Config.LEVELS[input].length; ++i) { //finds where worker be at
+                for (int j = 0; j < Config.LEVELS[input][i].length; ++j ) {
                     if (Config.LEVELS[1][i][j]== Config.WORKER_CHAR) {
                         pos[0] = i;
                         pos[1] = j;
                         break; }}}
-            System.out.println(pos[0]);
-            System.out.println(pos[1]);
-            System.out.print(checkDelta(board, pos, calcDelta(promptString(sc, prompt1)), valid));
             break;
             }
             }
