@@ -369,50 +369,53 @@ public class Sokoban {
         valid[5] = Config.WORK_GOAL_CHAR;
         valid[6] = Config.WORKER_CHAR;
         
-        System.out.println(board.length + "length");
-        //System.out.println(board[pos[0]].length + "length[]");
-        System.out.println(pos[0] + " pos[0]");
-        System.out.println(pos[1] + "pos[1]");
-        System.out.println(pos);
+      
         
-        if (pos == null || pos.length != 2 || pos[0] >= board.length || pos[1] >= board[pos[0]].length) { //checks if null
+        if (pos == null || pos.length != 2 || pos[0] >= board.length || pos[1] >= board[pos[0]].length || pos[0] < 0 || pos[1] < 0) { //checks if null
             return -1;
         }
 
-        boolean asdf = false;
-        for (int i = 0; i < valid.length; ++i) { //checks if in valid array 
-            //for (int j = 0; j <= valid.length; ++j) {
-                System.out.println(Config.LEVELS[0][pos[0]][pos[1]]);
-                System.out.println(valid[i]);
-            if (Config.LEVELS[1][pos[0]][pos[1]] == valid[i]) {
-                asdf = true;
-            } }if (asdf == false) {
-                return -2;
+        boolean test2 = true;
+        while (test2) {
+            for  (char validChars : valid) {
+                if (validChars == board[pos[0]][pos[1]]) {
+                    test2 = false; 
+                }
             }
+         if (test2) {
+             return -2;
+         }
+        }
             
-        if (delta == null || delta.length != 2) { //checks if delta is null WORKS
+        if (delta == null) {
+            return -3;
+        }
+            
+            if (delta.length != 2) { //checks if delta is null WORKS
             return -3;
         }
 
-        for (int i = 0; i < board.length; ++i) { //checks if new pos is wall char
-            if(pos[i] == Config.WALL_CHAR) {
-                return -4;
-            }
+        
+        int newY = pos[0] + delta[0];
+        int newX = pos[1] + delta[1];
+        
+        if (newY < 0 || newY >= board.length) {
+            return -4;
+            
+        }
+        if (newX < 0 || newX >= board[newY].length) {
+            return -4;
         }
         
-        for (int i = 0; i < board.length; ++i) { //checks if on board
-            for (int j = 0; j < board[i].length; ++j) {
-                if (pos[i] > board[i].length) {
-                    
-                }
-            }
+        if (board[pos[0]][pos[1]] == Config.WALL_CHAR) {
+            return -4;
         }
-
-        for (int i = 0; i < board.length; ++i) { //if new pos is box char
-            if (pos[i] == Config.BOX_CHAR) {
-                return -5;
+        
+        if (board[pos[0]][pos[1]] == Config.BOX_CHAR) {
+            return -5;
+            
             }
-        }
+        
 
         return 1;
     }
@@ -434,8 +437,14 @@ public class Sokoban {
      * @param opt2 The character to change to if the value is not val.
      */
     public static void togglePos(char[][] board, int[] pos, char val, char opt1, char opt2) {
-        // FIX ME
+        if (board[pos[0]][pos[1]] == val) {
+            board[pos[0]][pos[1]] = opt1;
+        } else {
+            board[pos[0]][pos[1]] = opt2;
+        }
+        
     }
+    
 
     /**
      * Moves a box on the board.
@@ -454,7 +463,12 @@ public class Sokoban {
      * @return The return value of checkDelta if less than 1. Otherwise 1.
      */
     public static int shiftBox(char[][] board, int[] pos, int[] delta) {
-        // FIX ME
+        char[] valid = new char[2];
+        valid[0] = Config.BOX_CHAR;
+        valid[1] = Config.BOX_GOAL_CHAR;
+        checkDelta(board, pos, delta, valid);
+        
+        togglePos(board, delta, , 0, 0);
         return -99;
     }
 
@@ -502,10 +516,17 @@ public class Sokoban {
      * @return If checkDelta returns a value less than 1 that is not -5, return that value. If
      *         checkDelta returns -5 and shiftBox returns a value less than 0, return 0. Otherwise,
      *         return 1.
-     */
+     */ //shiftbix moves bix to other spot
     public static int doMove(char[][] board, int[] pos, int[] delta) {
-        // FIX ME
-        return -99;
+        char[] valid  = new char[2];
+        valid[0] = Config.WORK_GOAL_CHAR;
+        valid[1] = Config.WORKER_CHAR;
+        if ((checkDelta(Config.LEVELS[1], pos, delta, valid) == -5)) {
+            shiftBox(board, pos, delta);
+        } if ((checkDelta(Config.LEVELS[1], pos, delta, valid) < 1) && (checkDelta(Config.LEVELS[1], pos, delta, valid) != 5)) {
+            return (checkDelta(Config.LEVELS[1], pos, delta, valid));
+        }
+         return 1;
     }
 
     /**
