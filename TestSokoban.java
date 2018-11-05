@@ -1,4 +1,5 @@
 /**
+ /**
  * This file contains testing methods for the Sokoban project. These methods are intended to 
  * provide an example of a way to incrementally test your code, and to provide example method calls
  * for the Sokoban methods
@@ -37,7 +38,7 @@ public class TestSokoban {
         testCalcDelta();
         testCheckDelta();
         // Milestone 3
-        //testTogglePos();
+        testTogglePos();
         //testShiftBox();
         //testDoMove();
         //testProcessMove();
@@ -178,7 +179,7 @@ public class TestSokoban {
         for (int m=0; m < Config.GOALS.length; ++m) {
             for (int n = 0; n < Config.GOALS[m].length; ++n) {
                 goalList.add(new Integer (Config.GOALS[m][n]));
-                System.out.println(Arrays.toString(goalList.toArray()));
+                //System.out.println(Arrays.toString(goalList.toArray()));
 
             }}
         
@@ -225,7 +226,7 @@ public class TestSokoban {
         
         int[] plsWork = Sokoban.calcDelta("81");
         
-        System.out.println(plsWork[0]);
+        //System.out.println(plsWork[0]);
 
       if (plsWork[0] == -1) {
           if (plsWork[1] == 0) {
@@ -241,29 +242,65 @@ public class TestSokoban {
           }
       }
       
-      System.out.println("testCalcDelta passed" + passed + " of " + numTests + " tests.");
+      System.out.println("testCalcDelta: Passed " + passed + " of " + numTests + " tests.");
     }
     
     private static void testCheckDelta() {
-        //FIXME
-        int passed = 0;
+        
+        char[] valid = new char[7];
+        valid[0] = Config.WALL_CHAR;
+        valid[1] = Config.GOAL_CHAR;
+        valid[2] = Config.BOX_CHAR;
+        valid[3] = Config.BOX_GOAL_CHAR;
+        valid[4] = Config.EMPTY_CHAR;
+        valid[5] = Config.WORK_GOAL_CHAR;
+        valid[6] = Config.WORKER_CHAR;
+        
         int[] pos = new int[2];
         for (int i = 0; i < Config.LEVELS[1].length; ++i) {
             for (int j = 0; j < Config.LEVELS[1][i].length; ++j) {
                 if (Config.LEVELS[1][i][j] == Config.WORKER_CHAR) {
                     pos[0] = i;
                     pos[1] = j;
-                    System.out.println(Config.LEVELS[1][i][j]);
-                    break;
-                }
-            }
+                    //System.out.println(Config.LEVELS[1][i][j]);
+                    break; 
+                }}}
+        int passed = 0;
+        //System.out.print(Sokoban.calcDelta("81"));
+        if (Sokoban.checkDelta(Config.LEVELS[1], pos, Sokoban.calcDelta("81"), valid) == 1) {
+             ++passed;
         }
         
+        
+        
+        System.out.print("testCheckDelta: Passed " + passed + " of 1 tests.");
+        
+   
+        
+      
         
     }
     
     private static void testTogglePos() {
-        //FIXME
+        
+        int[] pos = new int[2];
+        for (int i = 0; i < Config.LEVELS[1].length; ++i) {
+            for (int j = 0; j < Config.LEVELS[1][i].length; ++j) {
+                if (Config.LEVELS[1][i][j] == Config.WORKER_CHAR) {
+                    pos[0] = i;
+                    pos[1] = j;
+                    //System.out.println(Config.LEVELS[1][i][j]);
+                    break; 
+                }}}
+        int passed = 0;
+        Sokoban.togglePos(Config.LEVELS[1], pos, Config.WORKER_CHAR, '$', '%');
+        if (Config.LEVELS[1][pos[0]][pos[1]] == '$') {
+            passed ++;
+            
+            
+        }
+        
+        System.out.print("testTogglePos: Passed " + passed + " of 1 test.");
     }
 
     private static void testShiftBox() {
