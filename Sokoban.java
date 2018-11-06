@@ -154,32 +154,6 @@ public class Sokoban {
         } System.out.println();
     }
     
-        //initBoard(int lvl, char[][][] Config.LEVELS, int[][] Config.GOALS, int[] pos);
-        /*for (int i = 0; i <= (board[0].length + 1); ++i) {
-            System.out.print(Config.WALL_CHAR);
-        }
-        System.out.println();
-        for (int j = 0; j < board.length; ++j) {
-            System.out.print(Config.WALL_CHAR);
-            for (int k = 0; k < board[j].length; ++k) {
-                System.out.print(board[j][k]);
-            }
-            System.out.println(Config.WALL_CHAR);
-        }
-        int numRows = board.length - 1;
-        for (int m = 0; m <= (board[numRows].length + 1); ++m) {
-            System.out.print(Config.WALL_CHAR);
-        }
-        for(int i = 0; i < board.length; ++i)
-        {
-            for(int k = 0; k < board[i].length; k++)
-            {
-                System.out.println(board[i][k]);
-            }
-            System.out.println();
-        }
-    } */
-
     /**
      * Runs a given level through some basic sanity checks.
      *
@@ -306,18 +280,30 @@ public class Sokoban {
         int[] moveVec = new int[2];
         int moveDir;
         int moveMag;
+        boolean hasInt = false;
+        moveMag = 100;
             
-        if (moveStr.length() < 2) { // if string is more than two else branch happens
+        if (moveStr.length() < 2) { // if string is more than one else branch happens
             moveMag = 1;
         } else {
-            Scanner sc = new Scanner(moveStr.substring(1, moveStr.length() - 1));
-            if (sc.hasNextInt() == false) {
+            //Scanner sc = new Scanner(moveStr.substring(1, moveStr.length() - 1)); //if cannot be interpreted as an int after first char
+            //if (moveStr.substring(1,moveStr.length() - 1).length() == 0) {
+            //    System.out.println("fucking up here");
+            //}
+            /*if (sc.hasNextInt() == false) {
             moveMag = 1;
-            }
-            else {
-            moveMag = Integer.parseInt(moveStr.substring(1, moveStr.length()));
-        } }
-
+            System.out.println(moveStr.substring(1, moveStr.length() - 1) + "else branch calcdelta"); //FIXME
+            } */
+            try { //checks to see if hasInt = false;
+                Integer.parseInt(moveStr.substring(1, moveStr.length()));
+                hasInt = true;
+            } catch(NumberFormatException ex) {
+            moveMag = 1; }
+            //else { //doesnt ever reach here because substring isnt outputting value
+            if(hasInt == true) {
+            moveMag = Integer.parseInt(moveStr.substring(1, moveStr.length())); }   
+        }
+        
         moveDir = (int)moveStr.charAt(0);
         
         if ((char)moveDir == Config.UP_CHAR) {
@@ -334,7 +320,7 @@ public class Sokoban {
             moveVec[1] = 0;
             return moveVec;
         }
-        
+        //System.out.println(moveVec[0] + moveVec[1] + "{}");
         return moveVec; 
     }
         
@@ -360,31 +346,48 @@ public class Sokoban {
 
     public static int checkDelta(char[][] board, int[] pos, int[] delta, char[] valid) {
         
+        //System.out.println(valid.length + "yee boi"); //why is valid length only 2
+        //workgoalchar and workerchar
         
-        valid[0] = Config.WALL_CHAR;
+        /*valid[0] = Config.WALL_CHAR;
         valid[1] = Config.GOAL_CHAR;
         valid[2] = Config.BOX_CHAR;
         valid[3] = Config.BOX_GOAL_CHAR;
         valid[4] = Config.EMPTY_CHAR;
         valid[5] = Config.WORK_GOAL_CHAR;
-        valid[6] = Config.WORKER_CHAR;
+        valid[6] = Config.WORKER_CHAR;*/
         
-      
-        
-        if (pos == null || pos.length != 2 || pos[0] >= board.length || pos[1] >= board[pos[0]].length || pos[0] < 0 || pos[1] < 0) { //checks if null
+       /* System.out.println(pos[0]);
+        System.out.println("Test checkdelta " + "pos[0] " + pos[0] + " pos[1] " + pos[1] + " board.length " + board.length);
+        System.out.println("pos == null " + (pos == null));
+        System.out.println("pos.length != 2 " + pos.length);
+        System.out.println("pos[0] >= board.length -1/ " + pos[0] + " " + board.length + -1);
+        System.out.println("pos[1] >= board[pos[0]].length -1/ " + pos[1] + " " + board[pos[0]].length);
+        System.out.println();
+        System.out.println();*/
+            //pos[0] >= board.length -1 fails
+        //System.out.println(pos[0]); // pos is wrong
+        //System.out.println(board.length);
+            
+        if (pos == null || pos.length != 2 || pos[0] >= board.length || pos[1] >= board[pos[0]].length || pos[0] < 0 || pos[1] < 0) { //checks if null //added -1
             return -1;
         }
 
-        boolean test2 = true;
-        while (test2) {
+        
+        while (true) {
+            boolean test2 = false;
             for  (char validChars : valid) {
                 if (validChars == board[pos[0]][pos[1]]) {
-                    test2 = false; 
+                    System.out.println(board[pos[0]][pos[1]] + " baord");
+                    System.out.println(validChars + " validChars");
+                    test2 = true; 
+                    System.out.println(test2);
                 }
             }
-         if (test2) {
-             return -2;
-         }
+         if (test2 == false) { //fix these lines
+             System.out.println("test2 " + test2);
+             //return -2;
+        } break;
         }
             
         if (delta == null) {
@@ -437,12 +440,14 @@ public class Sokoban {
      * @param opt2 The character to change to if the value is not val.
      */
     public static void togglePos(char[][] board, int[] pos, char val, char opt1, char opt2) {
+        //System.out.println(pos[0] + " " + pos[1] + " togglePos");
         if (board[pos[0]][pos[1]] == val) {
             board[pos[0]][pos[1]] = opt1;
+            
         } else {
             board[pos[0]][pos[1]] = opt2;
         }
-        
+        //System.out.println(board[pos[0]][pos[1]]);
     }
     
 
@@ -463,12 +468,18 @@ public class Sokoban {
      * @return The return value of checkDelta if less than 1. Otherwise 1.
      */
     public static int shiftBox(char[][] board, int[] pos, int[] delta) {
+        //char val = either an empty space or a goal char;
+        //do we have to define opt1 and opt2 in this method?
         char[] valid = new char[2];
         valid[0] = Config.BOX_CHAR;
         valid[1] = Config.BOX_GOAL_CHAR;
+        if (checkDelta(board, pos, delta, valid) < 1) { //checks move is valid, returns <1 if not
+            return checkDelta(board, pos, delta, valid);
+        }
         checkDelta(board, pos, delta, valid);
         
-        togglePos(board, delta, , 0, 0);
+        //togglePos(board, delta, val, opt1, opt2); //change char at new box pos
+        //togglePos(board, delta, val, opt1, opt2); //change char at new pos
         return -99;
     }
 
@@ -494,8 +505,36 @@ public class Sokoban {
      *         less than 1, return that value. Otherwise, return 1.
      */
     public static int processMove(char[][] board, int[] pos, int[] delta) {
-        // FIX ME
-        return -99;
+            int[] tempArray = {0, 0};
+            //loop thru delta i times
+            //System.out.println(delta[0] + " delta[0]");
+            //System.out.println(delta[1]+ " delta[1]");
+            //System.out.println(pos[0] + " pos[0]");
+            //System.out.println(pos[1] + " pos[1]");
+            if (delta[0] == 0 && delta[1] == 0) {
+                return 0;
+            }
+            System.out.println(delta[0] + "math");
+            for(int i = 0; i < Math.abs(delta[0]); ++i) { //runs thru [0] cell of delta
+                System.out.println("processmove");
+                System.out.println(doMove(board, pos, delta) + "value");
+                if(doMove(board, pos, delta) < 1) {
+                    System.out.println("if");
+                    return doMove(board, pos, delta);
+                }
+                doMove(board, pos, delta); //how to make delta arg without magnitude? //exception here
+                System.out.print("a "); //test // does not count one by one, goes all at once
+                }
+            
+            for(int j = 0; j < Math.abs(delta[1]); ++j) { //runs thru [1] cell of delta
+                if(doMove(board, pos, delta) < 1) {
+                    return doMove(board, pos, delta);
+                }
+                doMove(board, pos, delta); //exception here arrayindex out of bounds checkdelta domove processmove
+                System.out.print("b "); //test
+                }
+            
+            return 1;
     }
 
     /**
@@ -517,15 +556,42 @@ public class Sokoban {
      *         checkDelta returns -5 and shiftBox returns a value less than 0, return 0. Otherwise,
      *         return 1.
      */ //shiftbix moves bix to other spot
+    //shiftbox returns -5 if new spot is a box
     public static int doMove(char[][] board, int[] pos, int[] delta) {
+        char workChar;
         char[] valid  = new char[2];
         valid[0] = Config.WORK_GOAL_CHAR;
         valid[1] = Config.WORKER_CHAR;
-        if ((checkDelta(Config.LEVELS[1], pos, delta, valid) == -5)) {
+        System.out.println("happens this many times");
+        if (checkDelta(board, pos, delta, valid) < 1 && checkDelta(board, pos, delta, valid) != -5) {
+            System.out.println("checkdelta failed" + checkDelta(board, pos, delta, valid));
+            return checkDelta(board, pos, delta, valid);
+        } //doesnt reach past here
+        
+        if ((checkDelta(board, pos, delta, valid) == -5) && shiftBox(board, pos, delta) < 0) { //not sure what this does, replace Config.LEVELS with board
+            System.out.println("then thsi shit");
+            return 0;
+        } 
+        
+        if (checkDelta(board, pos, delta, valid) == -5) { //if box contains character, shiftbox
+            System.out.println("finally this");
             shiftBox(board, pos, delta);
-        } if ((checkDelta(Config.LEVELS[1], pos, delta, valid) < 1) && (checkDelta(Config.LEVELS[1], pos, delta, valid) != 5)) {
-            return (checkDelta(Config.LEVELS[1], pos, delta, valid));
         }
+        
+        togglePos(board, pos, Config.EMPTY_CHAR, Config.WORKER_CHAR, Config.WORK_GOAL_CHAR); //if moves onto empty space, becomes worker char, otherwise moves to
+                                                                                               //goal char and becomes work_goal_char, step 3
+        togglePos(board, pos, Config.WORKER_CHAR, Config.EMPTY_CHAR, Config.GOAL_CHAR); //after worker moves, if WORKER_CHAR, becomes EMPTY_CHAR, else is WOR_GOAL_CHAR
+                                                                                          // and becomes GOAL_CHAR after moving
+        pos[0] = pos[0] + delta[0];
+        pos[1] = pos[1] + delta[1];
+        System.out.println(pos[0] + " " + pos[1] + "domove");
+        
+        
+        
+        
+        //if ((checkDelta(Config.LEVELS[1], pos, delta, valid) < 1) && (checkDelta(Config.LEVELS[1], pos, delta, valid) != 5)) {
+          //  return (checkDelta(Config.LEVELS[1], pos, delta, valid));
+        //}
          return 1;
     }
 
@@ -593,26 +659,44 @@ public class Sokoban {
             
             String prompt1 = ": ";
             String str1 = "";
-            while (true) {
             char[][] board = initBoard(input, Config.LEVELS, Config.GOALS, pos);
             while (true) {
+            //char[][] board = initBoard(input, Config.LEVELS, Config.GOALS, pos);
+            while (true) {
             printBoard(board);
-            str1 = promptString(sc,prompt1);
+            str1 = promptString(sc,prompt1); //movement vector string**
             if (str1.length() == 0) {
                 continue; }
             break; }
 
-            if (str1.equals(Config.QUIT_CHAR) == true) { //if user inputs q
+            if (str1.charAt(0) == Config.QUIT_CHAR) { //if user inputs q
                 break;
-            } else {
-            calcDelta(str1);
+            } 
+            
+            else {
+            int[] delta = calcDelta(str1); //movement vector calculated
             for (int i = 0; i < Config.LEVELS[input].length; ++i) { //finds where worker be at
                 for (int j = 0; j < Config.LEVELS[input][i].length; ++j ) {
-                    if (Config.LEVELS[1][i][j]== Config.WORKER_CHAR) {
+                    if (Config.LEVELS[input][i][j] == Config.WORKER_CHAR) {
                         pos[0] = i;
                         pos[1] = j;
-                        break; }}}
-            break;
+                        System.out.println(pos[0] + " " + pos[1] + "main*");
+                        break;
+                    }
+                    }
+                }
+            //System.out.println("checkdelta: " + checkDelta(board, pos, delta, valid));
+            
+            //check to see if move is valid then use processMove
+            //System.out.println(delta[0] + " " + delta[1] +"main2");
+            
+            if (delta[0] != 0 || delta[1] != 0) { //checks not {0,0}
+            //System.out.println(processMove(board, pos, delta));
+            processMove(board, pos, delta);
+            System.out.println("processmove should happen");
+            }
+            
+            continue;
             }
             }
             
