@@ -374,21 +374,21 @@ public class Sokoban {
         }
 
         
-        while (true) {
+         
             boolean test2 = false;
             for  (char validChars : valid) {
                 if (validChars == board[pos[0]][pos[1]]) {
-                    System.out.println(board[pos[0]][pos[1]] + " baord");
-                    System.out.println(validChars + " validChars");
+                    //System.out.println(board[pos[0]][pos[1]] + " baord");
+                    //System.out.println(validChars + " validChars");
                     test2 = true; 
-                    System.out.println(test2);
+                    //System.out.println(test2);
                 }
             }
          if (test2 == false) { //fix these lines
-             System.out.println("test2 " + test2);
+             //System.out.println("test2 " + test2);
              //return -2;
-        } break;
-        }
+        } 
+        
             
         if (delta == null) {
             return -3;
@@ -438,8 +438,9 @@ public class Sokoban {
      * @param val The value to check for in the board.
      * @param opt1 The character to change to if the value is val.
      * @param opt2 The character to change to if the value is not val.
+     * @return 
      */
-    public static void togglePos(char[][] board, int[] pos, char val, char opt1, char opt2) {
+    public static void  togglePos(char[][] board, int[] pos, char val, char opt1, char opt2) {
         //System.out.println(pos[0] + " " + pos[1] + " togglePos");
         if (board[pos[0]][pos[1]] == val) {
             board[pos[0]][pos[1]] = opt1;
@@ -470,17 +471,35 @@ public class Sokoban {
     public static int shiftBox(char[][] board, int[] pos, int[] delta) {
         //char val = either an empty space or a goal char;
         //do we have to define opt1 and opt2 in this method?
-        char[] valid = new char[2];
-        valid[0] = Config.BOX_CHAR;
-        valid[1] = Config.BOX_GOAL_CHAR;
-        if (checkDelta(board, pos, delta, valid) < 1) { //checks move is valid, returns <1 if not
-            return checkDelta(board, pos, delta, valid);
+       
+        char[] validBox = new char[2];
+        validBox[0] = Config.BOX_CHAR;
+        validBox[1] = Config.BOX_GOAL_CHAR;
+        
+        char[] validWork = new char[2];
+        validWork[0] = Config.WORKER_CHAR;
+        validWork[1] = Config.WORK_GOAL_CHAR;
+        
+        if (checkDelta(board, pos, delta, validBox) < 1) { //checks move is valid, returns <1 if not
+            //return checkDelta(board, pos, delta, validBox);//FIXME
+        } else {
+            togglePos(board, pos, Config.BOX_CHAR, validWork[0], validWork[1]);
+
+            togglePos(board, pos, Config.EMPTY_CHAR, validBox[0], validBox[1]); //if empty char, becomes box char. else, box lands on goal and box becomes box goal char.
+         return 1;
         }
-        checkDelta(board, pos, delta, valid);
+        return 1; //FIXME
+        
+        
+       
+        
+       
+       
+       
         
         //togglePos(board, delta, val, opt1, opt2); //change char at new box pos
         //togglePos(board, delta, val, opt1, opt2); //change char at new pos
-        return -99;
+        
     }
 
     /**
@@ -514,16 +533,18 @@ public class Sokoban {
             if (delta[0] == 0 && delta[1] == 0) {
                 return 0;
             }
-            System.out.println(delta[0] + "math");
+            //System.out.println(delta[0] + "math");
+            System.out.println(delta[0]);
             for(int i = 0; i < Math.abs(delta[0]); ++i) { //runs thru [0] cell of delta
-                System.out.println("processmove");
-                System.out.println(doMove(board, pos, delta) + "value");
+                //System.out.println("processmove");
+                //System.out.print(Math.abs(delta[0]) + " this it boi");
+                //System.out.println(doMove(board, pos, delta) + "value");
                 if(doMove(board, pos, delta) < 1) {
-                    System.out.println("if");
+                    //System.out.println("if");
                     return doMove(board, pos, delta);
                 }
                 doMove(board, pos, delta); //how to make delta arg without magnitude? //exception here
-                System.out.print("a "); //test // does not count one by one, goes all at once
+                //System.out.print("a "); //test // does not count one by one, goes all at once
                 }
             
             for(int j = 0; j < Math.abs(delta[1]); ++j) { //runs thru [1] cell of delta
@@ -531,7 +552,7 @@ public class Sokoban {
                     return doMove(board, pos, delta);
                 }
                 doMove(board, pos, delta); //exception here arrayindex out of bounds checkdelta domove processmove
-                System.out.print("b "); //test
+                //System.out.print("b "); //test
                 }
             
             return 1;
@@ -562,29 +583,31 @@ public class Sokoban {
         char[] valid  = new char[2];
         valid[0] = Config.WORK_GOAL_CHAR;
         valid[1] = Config.WORKER_CHAR;
-        System.out.println("happens this many times");
+        //System.out.println("happens this many times");
         if (checkDelta(board, pos, delta, valid) < 1 && checkDelta(board, pos, delta, valid) != -5) {
-            System.out.println("checkdelta failed" + checkDelta(board, pos, delta, valid));
+            //System.out.println("checkdelta failed" + checkDelta(board, pos, delta, valid));
             return checkDelta(board, pos, delta, valid);
         } //doesnt reach past here
         
         if ((checkDelta(board, pos, delta, valid) == -5) && shiftBox(board, pos, delta) < 0) { //not sure what this does, replace Config.LEVELS with board
-            System.out.println("then thsi shit");
+            //System.out.println("then thsi shit");
             return 0;
         } 
         
         if (checkDelta(board, pos, delta, valid) == -5) { //if box contains character, shiftbox
-            System.out.println("finally this");
+            //System.out.println("finally this");
             shiftBox(board, pos, delta);
         }
         
         togglePos(board, pos, Config.EMPTY_CHAR, Config.WORKER_CHAR, Config.WORK_GOAL_CHAR); //if moves onto empty space, becomes worker char, otherwise moves to
                                                                                                //goal char and becomes work_goal_char, step 3
-        togglePos(board, pos, Config.WORKER_CHAR, Config.EMPTY_CHAR, Config.GOAL_CHAR); //after worker moves, if WORKER_CHAR, becomes EMPTY_CHAR, else is WOR_GOAL_CHAR
+         //after worker moves, if WORKER_CHAR, becomes EMPTY_CHAR, else is WOR_GOAL_CHAR
                                                                                           // and becomes GOAL_CHAR after moving
         pos[0] = pos[0] + delta[0];
         pos[1] = pos[1] + delta[1];
-        System.out.println(pos[0] + " " + pos[1] + "domove");
+        
+        togglePos(board, pos, Config.WORKER_CHAR, Config.EMPTY_CHAR, Config.GOAL_CHAR);
+        //System.out.println(pos[0] + " " + pos[1] + "domove");
         
         
         
@@ -680,7 +703,7 @@ public class Sokoban {
                     if (Config.LEVELS[input][i][j] == Config.WORKER_CHAR) {
                         pos[0] = i;
                         pos[1] = j;
-                        System.out.println(pos[0] + " " + pos[1] + "main*");
+                        //System.out.println(pos[0] + " " + pos[1] + "main*");
                         break;
                     }
                     }
@@ -693,7 +716,7 @@ public class Sokoban {
             if (delta[0] != 0 || delta[1] != 0) { //checks not {0,0}
             //System.out.println(processMove(board, pos, delta));
             processMove(board, pos, delta);
-            System.out.println("processmove should happen");
+            //System.out.println("processmove should happen");
             }
             
             continue;
@@ -706,4 +729,3 @@ public class Sokoban {
     }
 
 }
-

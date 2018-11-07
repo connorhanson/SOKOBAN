@@ -38,9 +38,9 @@ public class TestSokoban {
         testCheckDelta();
         // Milestone 3
         testTogglePos();
-        //testShiftBox();
-        //testDoMove();
-        //testProcessMove();
+        testShiftBox();
+        testDoMove();
+        testProcessMove();
     }
     
     private static void testCheckLevel() {
@@ -284,16 +284,38 @@ public class TestSokoban {
                 }
             }
         }
-        System.out.print("Should return " + Config.WORK_GOAL_CHAR + " returns: ");
+        System.out.println("Should return " + Config.WORK_GOAL_CHAR + " returns: ");
         Sokoban.togglePos(Config.LEVELS[1], pos, Config.BOX_CHAR, Config.WORK_GOAL_CHAR, Config.WORKER_CHAR);
     }
 
     private static void testShiftBox() {
-        //FIXME
+        int passed = 0; 
+        int[] pos = new int[2];
+        for (int i = 0; i < Config.LEVELS[1].length; ++i) {
+            for (int j = 0; j < Config.LEVELS[1][i].length; ++j) {
+                if (Config.LEVELS[1][i][j] == Config.BOX_CHAR) {
+                    pos[0] = i;
+                    pos[1] = j;
+                    System.out.print( i + j +  "this is i and j");
+                } if (Config.LEVELS[1][i][j] == Config.WORKER_CHAR) {
+                    pos[0] = i;
+                    pos[1] = j;
+                    System.out.print( i + j +  "this worker ");
+                }
+            }
+        } 
+        System.out.print(pos[0] + " " + pos[1] + "this is pos"); 
+        System.out.print("testShiftBox: Should return 1, returns : " + Sokoban.shiftBox(Config.LEVELS[1], pos, Sokoban.calcDelta("81")));
     }
 
     private static void testDoMove() {
-        //FIXME
+        int[] pos = new int[2];
+        for (int i = 0; i < Config.LEVELS[1].length; ++i) {
+            for (int j = 0; j < Config.LEVELS[1][i].length; ++j) {
+                if (Config.LEVELS[1][i][j] == Config.BOX_CHAR) {
+                    pos[0] = i;
+                    pos[1] = j; }}}
+        System.out.print("testDoMove: Should return 1, returns : " + Sokoban.doMove(Config.LEVELS[1], pos, Sokoban.calcDelta("81")));
     }
 
     private static void testProcessMove() {
@@ -301,3 +323,4 @@ public class TestSokoban {
     }    
 
 }
+
