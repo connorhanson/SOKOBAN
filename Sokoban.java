@@ -364,7 +364,7 @@ public class Sokoban {
             }
         }
         if (test2 == false) {
-            //return -2;
+            return -2;
         }
 
 
@@ -389,12 +389,12 @@ public class Sokoban {
         }
 
         if (board[newY][newX] == Config.WALL_CHAR) {
-            System.out.println("ran into wall");
+            //System.out.println("ran into wall");
             return -4;
         }
 
-        if (board[newY][newX] == Config.BOX_CHAR) {
-            System.out.println("ran into box char");
+        if (board[newY][newX] == Config.BOX_CHAR || board[newY][newX] == Config.BOX_GOAL_CHAR) {
+            //System.out.println("ran into box char");
             return -5;
 
         }
@@ -450,13 +450,15 @@ public class Sokoban {
         validBox[0] = Config.BOX_CHAR;
         validBox[1] = Config.BOX_GOAL_CHAR;
         
-        int checkDick = checkDelta(board, pos, delta, validBox);
-        if (checkDick == 1) {
+        int verifyD = checkDelta(board, pos, delta, validBox);
+        if (verifyD == 1) {
             int[] newPos = new int[2];
             newPos[0] = pos[0] + delta[0];
             newPos[1] = pos[1] + delta[1];
-            togglePos(board, newPos, Config.GOAL_CHAR, Config.BOX_GOAL_CHAR, Config.BOX_CHAR);
-            togglePos(board, pos, Config.BOX_GOAL_CHAR, Config.GOAL_CHAR, Config.EMPTY_CHAR);
+            
+                togglePos(board, newPos, Config.GOAL_CHAR, Config.BOX_GOAL_CHAR, Config.BOX_CHAR);
+                togglePos(board, pos, Config.BOX_GOAL_CHAR, Config.GOAL_CHAR, Config.EMPTY_CHAR);
+
         }
         return 1;
         
@@ -638,30 +640,23 @@ public class Sokoban {
             int[] newPos = new int[2];
             newPos[0] = pos[0] + delta[0];
             newPos[1] = pos[1] + delta[1];
-            int checkD = checkDelta(board, pos, delta, valid);
-            if (checkD < 0) {
-                if (checkD == -5) {
+            int verifyD = checkDelta(board, pos, delta, valid);
+            if (verifyD < 0) {
+                if (verifyD == -5) {
                     int shiftVal = shiftBox(board, newPos, delta);
                     if (shiftVal < 0) {
                         return 0;
                     } else {
-                        checkD = 1;
+                        verifyD = 1; //so it runs thru later if statement
                     }
                 }
-                if (checkD < 1) {
-                    return checkD;
+                if (verifyD < 1) {
+                    return verifyD;
                 }
             }
-            if (checkD == 1) {
-
-                char opt1 = Config.WORK_GOAL_CHAR;
-                char opt2 = Config.WORKER_CHAR;
-                char val = Config.GOAL_CHAR;
-                togglePos(board, newPos, val, opt1, opt2);
-                val = Config.WORK_GOAL_CHAR;
-                opt1 = Config.GOAL_CHAR;
-                opt2 = Config.EMPTY_CHAR;
-                togglePos(board, pos, val, opt1, opt2);
+            if (verifyD == 1) {
+                togglePos(board, newPos, Config.GOAL_CHAR, Config.WORK_GOAL_CHAR, Config.WORKER_CHAR);
+                togglePos(board, pos, Config.WORK_GOAL_CHAR, Config.GOAL_CHAR, Config.EMPTY_CHAR);
                 pos[0] = newPos[0];
                 pos[1] = newPos[1];
             }
@@ -729,7 +724,9 @@ public class Sokoban {
             String prompt = "Choose a level between 0 and " + maxLvl + ": ";
             int input = promptInt(sc, prompt, minLvl, maxLvl); // lvl chosen
             String garbage = sc.nextLine();
-            if (checkLevel(input, Config.LEVELS, Config.GOALS) == 1) { // check array
+            int levelCheck = checkLevel(input, Config.LEVELS, Config.GOALS);
+            System.out.println(levelCheck + "levels");
+            if (levelCheck == 1) { // check array
             // parameters); // shit aint running in zybooks
             System.out.println("Sokoban Level " + input);
              }
