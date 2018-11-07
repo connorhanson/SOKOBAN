@@ -449,7 +449,9 @@ public class Sokoban {
         char[] validBox = new char[2];
         validBox[0] = Config.BOX_CHAR;
         validBox[1] = Config.BOX_GOAL_CHAR;
-        
+        if (checkDelta(board, pos, delta, validBox) != 1) {
+             return checkDelta(board, pos, delta, validBox);
+        }
         int verifyD = checkDelta(board, pos, delta, validBox);
         if (verifyD == 1) {
             int[] newPos = new int[2];
@@ -469,7 +471,6 @@ public class Sokoban {
         /*char[] validBox = new char[2];
         validBox[0] = Config.BOX_CHAR;
         validBox[1] = Config.BOX_GOAL_CHAR;
-
         char[] validWork = new char[2];
         validWork[0] = Config.WORKER_CHAR;
         validWork[1] = Config.WORK_GOAL_CHAR;
@@ -482,17 +483,14 @@ public class Sokoban {
             boxPos[0] = 0;
             boxPos[1] = delta[1] / Math.abs(delta[1]);
         }
-
         if (checkDelta(board, pos, delta, validBox) < 1) { // checks move is valid, returns <1 if
                                                            // not
             System.out.println("shiftbox" + checkDelta(board, pos, delta, validBox));
             togglePos(board, pos, Config.BOX_CHAR, Config.WORKER_CHAR, Config.WORK_GOAL_CHAR);
-
             togglePos(board, pos, Config.EMPTY_CHAR, Config.BOX_CHAR, Config.BOX_GOAL_CHAR);
             return checkDelta(board, pos, delta, validBox);// FIXME
         } else {
             //togglePos(board, pos, Config.BOX_CHAR, Config.WORKER_CHAR, Config.WORK_GOAL_CHAR);
-
             //togglePos(board, pos, Config.EMPTY_CHAR, Config.BOX_CHAR, Config.BOX_GOAL_CHAR); // if empty char,
                                                                                 // becomes box char.
                                                                                 // else, box lands
@@ -587,7 +585,6 @@ public class Sokoban {
             System.out.println("checkdelta failed" + checkDelta(board, pos, delta, valid));
             return checkDelta(board, pos, delta, valid);
         } // doesnt reach past here
-
         if ((checkDelta(board, pos, delta, valid) == -5) && shiftBox(board, pos, delta) < 0) { // not
                                                                                                // sure
                                                                                                // what
@@ -600,14 +597,11 @@ public class Sokoban {
             System.out.println("problem here");
             return 0;
         }
-
         if (checkDelta(board, pos, delta, valid) == -5) { // if box contains character, shiftbox
             System.out.println("problem at shiftbox");
             shiftBox(board, pos, delta);
         }
-
         togglePos(board, pos, Config.WORKER_CHAR, Config.EMPTY_CHAR, Config.GOAL_CHAR);
-
         // togglePos(board, pos, Config.EMPTY_CHAR, Config.WORKER_CHAR, Config.WORK_GOAL_CHAR); //if
         // moves onto empty space, becomes worker char, otherwise moves to
         // goal char and becomes work_goal_char, step 3
@@ -615,7 +609,6 @@ public class Sokoban {
         // and becomes GOAL_CHAR after moving
         pos[0] = pos[0] + delta[0];
         pos[1] = pos[1] + delta[1];
-
         togglePos(board, pos, Config.EMPTY_CHAR, Config.WORKER_CHAR, Config.WORK_GOAL_CHAR);
         System.out.println("pos[0] " + pos[0]);
         System.out.println("pos[1] " + pos[1]);
@@ -623,9 +616,6 @@ public class Sokoban {
         // pos[0] = pos[0] + delta[0];
         // pos[1] = pos[1] + delta[1];
         // System.out.println(pos[0] + " " + pos[1] + "domove");
-
-
-
         // if ((checkDelta(Config.LEVELS[1], pos, delta, valid) < 1) &&
         // (checkDelta(Config.LEVELS[1], pos, delta, valid) != 5)) {
         // return (checkDelta(Config.LEVELS[1], pos, delta, valid));
