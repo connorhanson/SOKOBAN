@@ -709,8 +709,8 @@ public class Sokoban {
         int minLvl = -1;
         String charPrompt = "Play again? (y/n) ";
         int[] pos = new int[2];
-        int moveCounter = 0;
         Random rand = new Random(Config.SEED);
+        int moveCounter = 0;
         
         do {
             String prompt = "Choose a level between 0 and " + maxLvl + ": ";
@@ -746,7 +746,6 @@ public class Sokoban {
             String str1 = "";
             char[][] board = initBoard(input, Config.LEVELS, Config.GOALS, pos);
             while (true) {
-                // char[][] board = initBoard(input, Config.LEVELS, Config.GOALS, pos);
                 while (true) {
                     printBoard(board);
                     str1 = promptString(sc, prompt1); // movement vector string**
@@ -757,6 +756,7 @@ public class Sokoban {
                 }
 
                 if (str1.charAt(0) == Config.QUIT_CHAR) { // if user inputs q
+                    moveCounter = 0;
                     break;
                 }
 
@@ -780,6 +780,7 @@ public class Sokoban {
                     if (checkWin(board) == true) {
                         System.out.println("Congratulations! You won in " + moveCounter + " moves!");
                         printBoard(board);
+                        moveCounter = 0;
                         break;
                     }
                     
