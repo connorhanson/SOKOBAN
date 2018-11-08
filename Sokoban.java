@@ -449,17 +449,18 @@ public class Sokoban {
         char[] validBox = new char[2];
         validBox[0] = Config.BOX_CHAR;
         validBox[1] = Config.BOX_GOAL_CHAR;
-        if (checkDelta(board, pos, delta, validBox) != 1) {
-             return checkDelta(board, pos, delta, validBox);
-        }
         int verifyD = checkDelta(board, pos, delta, validBox);
+        if (verifyD != 1) {
+             return verifyD;
+        }
+        
         if (verifyD == 1) {
             int[] newPos = new int[2];
             newPos[0] = pos[0] + delta[0];
             newPos[1] = pos[1] + delta[1];
             
-                togglePos(board, newPos, Config.GOAL_CHAR, Config.BOX_GOAL_CHAR, Config.BOX_CHAR);
-                togglePos(board, pos, Config.BOX_GOAL_CHAR, Config.GOAL_CHAR, Config.EMPTY_CHAR);
+            togglePos(board, newPos, Config.GOAL_CHAR, Config.BOX_GOAL_CHAR, Config.BOX_CHAR);
+            togglePos(board, pos, Config.BOX_GOAL_CHAR, Config.GOAL_CHAR, Config.EMPTY_CHAR);
 
         }
         return 1;
@@ -703,23 +704,43 @@ public class Sokoban {
         valid[6] = Config.WORKER_CHAR;
 
         Scanner sc = new Scanner(System.in);
-        // Scanner s = new Scanner("0");
         System.out.println("Welcome to Sokoban!");
         int maxLvl = Config.LEVELS.length - 1;
-        int minLvl = 0;
+        int minLvl = -1;
         String charPrompt = "Play again? (y/n) ";
         int[] pos = new int[2];
-
+        int moveCounter = 0;
+        Random rand = new Random(Config.SEED);
+        
         do {
             String prompt = "Choose a level between 0 and " + maxLvl + ": ";
             int input = promptInt(sc, prompt, minLvl, maxLvl); // lvl chosen
             String garbage = sc.nextLine();
+            if (input == -1) {
+                input = rand.nextInt(maxLvl + 1);
+            }
             int levelCheck = checkLevel(input, Config.LEVELS, Config.GOALS);
-            System.out.println(levelCheck + "levels");
             if (levelCheck == 1) { // check array
-            // parameters); // shit aint running in zybooks
             System.out.println("Sokoban Level " + input);
-             }
+            } else if (levelCheck == 0) {
+                System.out.println("Level ​lvl must be 0 or greater!");
+            } else if (levelCheck == -1) {
+                System.out.println("Error with Config.LEVELS");
+            } else if (levelCheck == -2) {
+                System.out.println("Error with Config.GOALS");
+            } else if (levelCheck == -3) {
+                System.out.println("Level lvl does not contain any boxes.");
+            } else if (levelCheck == -4) {
+                System.out.println("Level lvl does not have the same number of boxes as goals.");
+            } else if (levelCheck == -5) {
+                System.out.println("Level lvl has a goal location that is a wall.");
+            } else if (levelCheck == -6) {
+                System.out.println("Level lvl has 0 or more than 1 worker(s).");
+            } else if (levelCheck == -7) {
+                System.out.println("Level lvl contains duplicate goals.");
+            } else {
+                System.out.println("Unknown error");
+            }
 
             String prompt1 = ": ";
             String str1 = "";
@@ -750,21 +771,21 @@ public class Sokoban {
                             }
                         }
                     }
-                    // System.out.println("checkdelta: " + checkDelta(board, pos, delta, valid));
 
-                    // check to see if move is valid then use processMove
-                    // System.out.println(delta[0] + " " + delta[1] +"main2");
 
                     if (delta[0] != 0 || delta[1] != 0) { // checks not {0,0}
-                        // System.out.println(processMove(board, pos, delta));
                         processMove(board, pos, delta);
-                        // System.out.println("processmove should happen");
+                        moveCounter += Math.abs(delta[0] + delta[1]);
                     }
-
+                    if (checkWin(board) == true) {
+                        System.out.println("Congratulations! You won in " + moveCounter + " moves!");
+                        printBoard(board);
+                        break;
+                    }
+                    
                     continue;
                 }
             }
-
         } while (promptChar(sc, charPrompt) == 'y');
         System.out.println("Thanks for playing!");
 
