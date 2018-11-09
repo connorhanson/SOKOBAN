@@ -4,14 +4,14 @@
 // Files: Sokoban.java
 // Course: CS 200 Fall 2018
 //
-// Author: Laura Garling
-// Email: garling@wisc.edu
+// Author: Connor Hanson
+// Email: cbhanson2@wisc.edu
 // Lecturer's Name: Marc Renault
 //
 //////////////////// PAIR PROGRAMMERS COMPLETE THIS SECTION ///////////////////
 //
-// Partner Name: Connor Hanson
-// Partner Email: chanson@wisc.edu
+// Partner Name: Laura Garling
+// Partner Email: garling@wisc.edu
 // Lecturer's Name: Marc Renualt
 //
 // VERIFY THE FOLLOWING BY PLACING AN X NEXT TO EACH TRUE STATEMENT:
@@ -27,7 +27,7 @@
 // strangers, etc do. If you received no outside help from either type of
 // source, then please explicitly indicate NONE.
 //
-// Persons: (identify each person and describe their help in detail)
+// Persons: Kael Hanson: He helped work through an issue with the Scanner.NextInt()
 // Online Sources: https://docs.oracle.com/javase/8/docs/api/java/util/ArrayList.html
 //
 /////////////////////////////// 80 COLUMNS WIDE ///////////////////////////////
@@ -324,10 +324,10 @@ public class Sokoban {
      * @return The calculated movement vector as a 2 cell int array.
      */
     public static int[] calcDelta(String moveStr) {
-        int[] moveVec = new int[2];
-        int moveDir;
-        int moveMag;
-        boolean hasInt = false;
+        int[] moveVec = new int[2]; //returned movement vector
+        int moveDir; //Direction of movement
+        int moveMag; //Magnitude of movement
+        boolean hasInt = false; //Checks if string has an int after first char
         moveMag = 100;
 
         if (moveStr.length() < 2) { // if string is more than one else branch happens
@@ -345,9 +345,9 @@ public class Sokoban {
             }
         }
 
-        moveDir = (int) moveStr.charAt(0);
+        moveDir = (int) moveStr.charAt(0); //finds movement direction
 
-        if ((char) moveDir == Config.UP_CHAR) {
+        if ((char) moveDir == Config.UP_CHAR) { //branches assign movement direction
             moveVec[0] = -1 * moveMag;
         } else if ((char) moveDir == Config.DOWN_CHAR) {
             moveVec[0] = moveMag;
@@ -478,10 +478,10 @@ public class Sokoban {
      * @return
      */
     public static void togglePos(char[][] board, int[] pos, char val, char opt1, char opt2) {
-        if (board[pos[0]][pos[1]] == val) { 
+        if (board[pos[0]][pos[1]] == val) { //if position is a certain char, then becomes opt1
             board[pos[0]][pos[1]] = opt1;
         } else {
-            board[pos[0]][pos[1]] = opt2;
+            board[pos[0]][pos[1]] = opt2; //otherwise becomes opt2
         }
     }
 
@@ -503,7 +503,7 @@ public class Sokoban {
      * @return The return value of checkDelta if less than 1. Otherwise 1.
      */
     public static int shiftBox(char[][] board, int[] pos, int[] delta) {
-        char[] validBox = new char[2];
+        char[] validBox = new char[2]; //valid chars the box can be
         validBox[0] = Config.BOX_CHAR;
         validBox[1] = Config.BOX_GOAL_CHAR;
         int verifyD = checkDelta(board, pos, delta, validBox); //stores the return value of checkDelta
@@ -511,8 +511,8 @@ public class Sokoban {
             return verifyD; 
         }
 
-        if (verifyD == 1) {
-            int[] newPos = new int[2];
+        if (verifyD == 1) { //if checkdelta passes, box shifts
+            int[] newPos = new int[2]; //new position of the box
             newPos[0] = pos[0] + delta[0];
             newPos[1] = pos[1] + delta[1];
 
@@ -551,7 +551,8 @@ public class Sokoban {
             return 0;
         }
 
-        int[] noMag = new int[2];
+        int[] noMag = new int[2]; //sets movement magnitude to 1 so that the loops 
+                                  //can iterate right amount of times
         if (delta[0] != 0) {
             noMag[0] = delta[0] / Math.abs(delta[0]);
             noMag[1] = 0;
@@ -599,13 +600,13 @@ public class Sokoban {
      */ 
     public static int doMove(char[][] board, int[] pos, int[] delta) {
 
-        char[] valid = new char[2];
+        char[] valid = new char[2]; //valid characters the worker can be
         valid[0] = Config.WORK_GOAL_CHAR;
         valid[1] = Config.WORKER_CHAR;
-        int[] newPos = new int[2]; //creates new position array with delta
+        int[] newPos = new int[2]; //creates new position array with delta for worker
         newPos[0] = pos[0] + delta[0];
         newPos[1] = pos[1] + delta[1];
-        int verifyD = checkDelta(board, pos, delta, valid);
+        int verifyD = checkDelta(board, pos, delta, valid); //makes sure that checkdelta works
         if (verifyD < 0) {
             if (verifyD == -5) {
                 int shiftVal = shiftBox(board, newPos, delta);
@@ -620,7 +621,8 @@ public class Sokoban {
             }
         }
         if (verifyD == 1) {
-            togglePos(board, newPos, Config.GOAL_CHAR, Config.WORK_GOAL_CHAR, Config.WORKER_CHAR); //changes character with togglePos
+            togglePos(board, newPos, Config.GOAL_CHAR, Config.WORK_GOAL_CHAR, Config.WORKER_CHAR); 
+                                                                    //changes character with togglePos
             togglePos(board, pos, Config.WORK_GOAL_CHAR, Config.GOAL_CHAR, Config.EMPTY_CHAR);
             pos[0] = newPos[0];
             pos[1] = newPos[1];
@@ -640,7 +642,8 @@ public class Sokoban {
      */
     public static boolean checkWin(char[][] board) {
         for (int i = 0; i < board.length; ++i) {
-            for (int j = 0; j < board[i].length; ++j) { // how to fix??
+            for (int j = 0; j < board[i].length; ++j) { //loop verifies that all the goal chars are
+                                                        //covered by boxes only
                 if (board[i][j] == Config.GOAL_CHAR) {
                     return false;
                 }
@@ -669,21 +672,21 @@ public class Sokoban {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Welcome to Sokoban!");
-        int maxLvl = Config.LEVELS.length - 1;
-        int minLvl = -1;
-        String charPrompt = "Play again? (y/n) ";
-        int[] pos = new int[2];
-        Random rand = new Random(Config.SEED);
-        int moveCounter = 0;
+        int maxLvl = Config.LEVELS.length - 1; //max level it can be
+        int minLvl = -1; //min level it can be, level -1 randomly chooses between levels
+        String charPrompt = "Play again? (y/n) "; //prompts to play again at end of game
+        int[] pos = new int[2]; //worker position array
+        Random rand = new Random(Config.SEED); //random generator for lvl = -1
+        int moveCounter = 0; //counts the moves
 
         do {
             String prompt = "Choose a level between 0 and " + maxLvl + ": ";
             int input = promptInt(sc, prompt, minLvl, maxLvl); // lvl chosen
-            String garbage = sc.nextLine();
+            String garbage = sc.nextLine(); //reads next line after sc.nextInt
             if (input == -1) {
                 input = rand.nextInt(maxLvl + 1);
             }
-            int levelCheck = checkLevel(input, Config.LEVELS, Config.GOALS);
+            int levelCheck = checkLevel(input, Config.LEVELS, Config.GOALS); //checkLevel return val
             if (levelCheck == 1) { // check array
                 System.out.println("Sokoban Level " + input);
             } else if (levelCheck == 0) {
@@ -705,12 +708,12 @@ public class Sokoban {
             } else {
                 System.out.println("Unknown error");
             }
-            String prompt1 = ": ";
-            String str1 = "";
-            char[][] board = initBoard(input, Config.LEVELS, Config.GOALS, pos);
-            while (true) {
-                while (true) {
-                    printBoard(board);
+            String prompt1 = ": "; //prompts input for movement
+            String str1 = ""; //initializes string input
+            char[][] board = initBoard(input, Config.LEVELS, Config.GOALS, pos); //board array initialized
+            while (true) { //game loop
+                while (true) { //game loop pt 2
+                    printBoard(board); 
                     str1 = promptString(sc, prompt1); // movement vector string**
                     if (str1.length() == 0) {
                         continue;
@@ -718,7 +721,7 @@ public class Sokoban {
                     break;
                 }
                 if (str1.charAt(0) == Config.QUIT_CHAR) { // if user inputs q
-                    moveCounter = 0;
+                    moveCounter = 0; //resets movement counter to 0 if user quits game loop
                     break;
                 } else {
                     int[] delta = calcDelta(str1); // movement vector calculated
@@ -734,13 +737,14 @@ public class Sokoban {
 
                     if (delta[0] != 0 || delta[1] != 0) { // checks not {0,0}
                         processMove(board, pos, delta);
-                        moveCounter += Math.abs(delta[0] + delta[1]);
+                        moveCounter += Math.abs(delta[0] + delta[1]); //adds each spot moved to
+                                                                      //movement counter
                     }
                     if (checkWin(board) == true) {
                         System.out
                             .println("Congratulations! You won in " + moveCounter + " moves!");
                         printBoard(board);
-                        moveCounter = 0;
+                        moveCounter = 0; //resets movement counter after win
                         break;
                     }
 
